@@ -1,0 +1,39 @@
+name: tiri
+
+services:
+  postgres:
+    image: postgres:18.3
+    container_name: tiri-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tiri
+      POSTGRES_PASSWORD: qazwsxedc
+      POSTGRES_DB: tiri
+    ports:
+      - "5432:5432"
+    volumes:
+      - tiri-postgres-vol:/var/lib/postgresql
+    networks:
+      - tiri-network
+
+  tiri:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: yenesew_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    networks:
+      - tiri-network
+    depends_on:
+      - postgres
+
+volumes:
+  tiri-postgres-vol:
+
+networks:
+  tiri-network:
+    driver: bridge
