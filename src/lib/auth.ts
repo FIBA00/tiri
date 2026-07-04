@@ -33,6 +33,36 @@ export const auth = betterAuth({
     },
   },
 
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          let defaultRole = await prisma.role.findFirst({
+            where: { guardName: "user" },
+          });
+
+          if (!defaultRole) {
+            defaultRole = await prisma.role.create({
+              data: {
+                id: crypto.randomUUID(),
+                name: "User",
+                guardName: "user",
+              },
+            });
+          }
+
+          await prisma.userRole.create({
+            data: {
+              id: crypto.randomUUID(),
+              userId: user.id,
+              roleId: defaultRole.id,
+            },
+          });
+        },
+      },
+    },
+  },
+
   hooks: {
     after: createAuthMiddleware(async (context) => {
       if (context.path === "/get-session") {
