@@ -27,3 +27,28 @@ export const getInviteSchema = z.object({
 });
 
 export type getInviteInput = z.infer<typeof getInviteSchema>;
+
+export const updateInviteSchema = z.object({
+  invitationId: z.string().cuid(),
+  inviteeName: z.string().min(3).optional(),
+  quantity: z.coerce.number().int().positive().optional(),
+  email: z.string().email().optional().or(z.literal("")),
+  phoneNumber: z
+    .string()
+    .regex(/^\+2519\d{8}$/)
+    .optional()
+    .or(z.literal("")),
+  telegramUserName: z.string().optional(),
+  description: z.string().optional(),
+  status: z.enum(["PENDING", "ENTERED", "EXITED", "CANCELED"]).optional(),
+});
+
+export type UpdateInviteInput = z.infer<typeof updateInviteSchema>;
+
+export const sendBulkEmailSchema = z.object({
+  invitationIds: z
+    .array(z.string().cuid())
+    .min(1, "Please select at least one invite"),
+});
+
+export type SendBulkEmailInput = z.infer<typeof sendBulkEmailSchema>;
