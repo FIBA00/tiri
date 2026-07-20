@@ -109,11 +109,12 @@ model UserRole {
 }
 
 model Event {
-  id          String  @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
   location    String?
   code        String?
   description String?
+  date        DateTime
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
