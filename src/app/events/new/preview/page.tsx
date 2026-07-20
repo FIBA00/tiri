@@ -3,15 +3,21 @@
 import { templates } from "@/app/events/new/cards/CardTemplates";
 import { useWizard } from "@/lib/wizard-context.tsx";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function PreviewPage() {
   const router = useRouter();
   const { event, guests, templateId, cardMode } = useWizard();
 
-  if (!event || !templateId) {
-    router.replace("/events/new");
-    return null;
-  }
+  useEffect(
+    function redirectIfNoEvent() {
+      if (!event) router.replace("/events/new");
+    },
+    [event, router],
+  );
+
+  if (!event) return null;
+
   const tpl = templates.find(function match(t) {
     return t.id === templateId;
   });

@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning].
 ### Removed
 
 ### Fixed
+- bug in the redirecting the events page introduced due to unused useEffect to control the side effect of using router .
 
 ### Security
 

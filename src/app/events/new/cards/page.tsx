@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useWizard } from "@/lib/wizard-context.tsx";
 import { templates } from "@/app/events/new/cards/CardTemplates";
+import { useEffect } from "react";
+
 
 export default function CardsPage() {
   const router = useRouter();
@@ -12,10 +14,14 @@ export default function CardsPage() {
   const [selected, setSelected] = useState(templates[0].id);
   const [mode, setMode] = useState<"unique" | "shared">("unique");
 
-  if (!event) {
-    router.replace("/events/new");
-    return null;
-  }
+  useEffect(
+    function redirectIfNoEvent() {
+      if (!event) router.replace("/events/new");
+    },
+    [event, router],
+  );
+
+  if (!event) return null;
 
   function handleContinue() {
     setTemplate(selected, mode);
