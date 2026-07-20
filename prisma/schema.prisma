@@ -106,3 +106,68 @@ model UserRole {
   @@unique([userId, roleId])
   @@map("user_role")
 }
+
+// events related models
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  type        String // wedding, graduation, corporate, birthday, etc 
+  date        DateTime
+  background  String?
+  inviterName String?
+  userId      String
+  locationId  String
+  location    Location @relation(fields: [locationId], references: [id])
+  guests      Guest[]
+  cards       Card[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Guest {
+  id        String   @id @default(uuid())
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id])
+  name      String
+  email     String?
+  phone     String?
+  notes     String?
+  source    String // manual, excel, google, telegram
+  invite    Invite?
+  createdAt DateTime @default(now())
+}
+
+model Location {
+  id          String  @id @default(uuid())
+  venueName   String
+  description String?
+  address     String
+  notes       String?
+  coordinates String?
+  events      Event[]
+}
+
+model Card {
+  id         String   @id @default(uuid())
+  eventId    String
+  event      Event    @relation(fields: [eventId], references: [id])
+  templateid String
+  isShared   Boolean  @default(false)
+  code       String   @unique // qr payload 
+  invites    Invite[]
+  createdAt  DateTime @default(now())
+}
+
+model Invite {
+  id          String    @id @default(uuid())
+  guestId     String    @unique
+  guest       Guest     @relation(fields: [guestId], references: [id])
+  card        Card      @relation(fields: [cardId], references: [id])
+  cardId      String?
+  status      String //sent, delivered, opened, accepted, declined, pending 
+  checkedInAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}

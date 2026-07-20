@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<!-- <p align="center">
+  <a href="" rel="noopener">
+ <img src="https://i.imgur.com/AZ2iWek.png" alt="Project logo"></a>
+</p> -->
+<h3 align="center">Tiri Event invitation system</h3>
 
-## Getting Started
+<div align="center">
 
-First, run the development server:
+[![Hackathon](https://img.shields.io/badge/hackathon-name-orange.svg)](http://hackathon.url.com)
+[![Status](https://img.shields.io/badge/status-active-success.svg)]()
+[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-**Compendium**.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+</div>
+
+---
+
+<p align="center"> Few lines describing your project.
+    <br> 
+</p>
+
+## 📝 Table of Contents
+
+- [📝 Table of Contents](#-table-of-contents)
+- [🧐 Problem Statement ](#-problem-statement-)
+- [💡 Idea / Solution ](#-idea--solution-)
+- [⛓️ Dependencies / Limitations ](#️-dependencies--limitations-)
+- [🚀 Future Scope ](#-future-scope-)
+- [🏁 Getting Started ](#-getting-started-)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+- [🎈 Usage ](#-usage-)
+- [⛏️ Built With ](#️-built-with-)
+- [✍️ Authors ](#️-authors-)
+- [🎉 Acknowledgments ](#-acknowledgments-)
+
+## 🧐 Problem Statement <a name = "problem_statement"></a>
+
+When there is an event example, marriage, graduation, home coming and all other things,
+that needs sending physical and sealed envlopes writing or calling everyone is tiring.
+plus it consumes alot of time so we want to solve the paper invitation creation into
+digital and way of inviting the participants.
+
+## 💡 Idea / Solution <a name = "idea"></a>
+
+- we create templates of different types of events.
+- the user fills the forms to create the event inviation card.
+- fills the contacts and names of guests.
+- then using premade or custom template the user can generate invitiation cards.
+- 
+## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
+
+...
+
+## 🚀 Future Scope <a name = "future_scope"></a>
+
+...
+## 🏁 Getting Started <a name = "getting_started"></a>
+
+...
+### Prerequisites
+
+What things you need to install the software and how to install them.
+
+```
+Give examples
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+A step by step series of examples that tell you how to get a development env running.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Say what the step will be
 
-## Learn More
+```
+Give the example
+```
 
-To learn more about Next.js, take a look at the following resources:
+And repeat
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+until finished
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎈 Usage <a name="usage"></a>
 
-## Deploy on Vercel
+Add notes about how to use the system.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⛏️ Built With <a name = "tech_stack"></a>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [PostregresSQL](https://www.postgresql.com/) - Database
+- [Nextjs](https://nextjs.com/) - Server Framework
+- [React](https://Reactjs.org/) - Web Framework
+- [NodeJs](https://nodejs.org/en/) - Server Environment
+
+## ✍️ Authors <a name = "authors"></a>
+
+- [@FIBA00](https://github.com/FIBA00)
+- [@ENDragnee](https://github.com/ENDragnee)
+<!-- - [@FIBA00](https://github.com/FIBA00) -->
+- 
+
+See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors)
+who participated in this project.
+
+## 🎉 Acknowledgments <a name = "acknowledgments"></a>
+
+- Hat tip to anyone whose code was used
+- Inspiration
+- References
+****
