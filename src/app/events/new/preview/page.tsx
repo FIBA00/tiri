@@ -1,6 +1,6 @@
 "use clients";
 
-import { templates } from "@/components/cards/CardTemplates.tsx";
+import { templates } from "@/app/events/new/cards/CardTemplates";
 import { useWizard } from "@/lib/wizard-context.tsx";
 import { useRouter } from "next/navigation";
 

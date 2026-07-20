@@ -4,8 +4,8 @@ import { useState } from "react";
 import { EventFormState } from "@/types/props.types.ts";
 import { Field } from "@/components/ui/Field.tsx";
 import { Input } from "@/components/ui/Input.tsx";
-import { TextArea } from "@/components/ui/TextArea.tsx";
-import { format } from "path";
+import { TextArea } from "@/components/ui/Textarea.tsx";
+
 
 const initialState: EventFormState = {
   name: "",

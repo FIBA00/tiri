@@ -4,7 +4,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useWizard } from "@/lib/wizard-context.tsx";
-import { templates } from "@/components/cards/CardTemplates.tsx";
+import { templates } from "@/app/events/new/cards/CardTemplates";
 
 export default function CardsPage() {
   const router = useRouter();
