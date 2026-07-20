@@ -1,3 +1,4 @@
+import { INVITESTATUS } from "@/generated/prisma/enums";
 import { z } from "zod";
 
 export const createInviteSchema = z.object({
@@ -14,3 +15,15 @@ export const createInviteSchema = z.object({
 });
 
 export type createInviteInput = z.infer<typeof createInviteSchema>;
+
+export const getInviteSchema = z.object({
+  page: z.coerce.number().int().min(1).positive().default(1),
+  limit: z.coerce.number().int().min(10).max(20).positive().default(10),
+  status: z.enum(INVITESTATUS).default("PENDING"),
+  sort: z.enum(["createdAt", "inviteeName", "quantity"]).default("createdAt"),
+  order: z.enum(["asc", "desc"]).default("desc"),
+  search: z.string().min(2).optional(),
+  eventId: z.cuid(),
+});
+
+export type getInviteInput = z.infer<typeof getInviteSchema>;
