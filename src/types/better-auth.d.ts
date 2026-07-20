@@ -13,4 +13,8 @@ declare module "better-auth" {
       role: string[];
     };
   }
+
+  interface User {
+    role: string[];
+  }
 }
