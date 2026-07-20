@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 
 export default function Login() {
@@ -16,7 +17,7 @@ export default function Login() {
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-white p-4">
-         <h1>Hi please login here </h1>
+      <h1>Hi please login here </h1>
     </div>
   )
 

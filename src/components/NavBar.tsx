@@ -40,13 +40,13 @@ export default function NavBar() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <Link
-              href="/sign-in"
+              href="/auth/sign-in"
               className="hidden md:inline text-sm text-ink hover:text-seal"
             >
               Sign in
             </Link>
             <Link
-              href="/sign-up"
+              href="/auth/sign-up"
               className="hidden md:inline-flex btn-seal !px-4 !py-2 text-sm"
             >
               Get started

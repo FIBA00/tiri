@@ -13,7 +13,7 @@ datasource db {
 }
 
 model User {
-  id            String  @id
+  id            String  @id @default(cuid())
   name          String
   email         String
   emailVerified Boolean @default(false)
@@ -22,6 +22,7 @@ model User {
   sessions  Session[]
   accounts  Account[]
   userRoles UserRole[]
+  events    Event[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -31,7 +32,7 @@ model User {
 }
 
 model Session {
-  id        String   @id
+  id        String   @id @default(cuid())
   expiresAt DateTime
   token     String
   createdAt DateTime @default(now())
@@ -47,7 +48,7 @@ model Session {
 }
 
 model Account {
-  id                    String    @id
+  id                    String    @id @default(cuid())
   accountId             String
   providerId            String
   userId                String
@@ -67,7 +68,7 @@ model Account {
 }
 
 model Verification {
-  id         String   @id
+  id         String   @id @default(cuid())
   identifier String
   value      String
   expiresAt  DateTime
@@ -79,7 +80,7 @@ model Verification {
 }
 
 model Role {
-  id        String @id
+  id        String @id @default(cuid())
   name      String
   guardName String
 
@@ -93,7 +94,7 @@ model Role {
 }
 
 model UserRole {
-  id String @id
+  id String @id @default(cuid())
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -105,4 +106,60 @@ model UserRole {
 
   @@unique([userId, roleId])
   @@map("user_role")
+}
+
+model Event {
+  id          String  @id @default(cuid())
+  name        String
+  location    String?
+  code        String?
+  description String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  inviations Invitation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("event")
+}
+
+model Invitation {
+  id          String       @id @default(cuid())
+  code        String
+  inviteeName String
+  quantity    Int
+  status      INVITESTATUS @default(PENDING)
+
+  phoneNumber      String?
+  email            String?
+  description      String?
+  telegramUserName String?
+  eventId          String
+  event            Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("inviation")
+}
+
+enum INVITESTATUS {
+  PENDING
+  ENTERED
+  EXITED
+  CANCELED
+}
+
+model Tenent {
+  id        String @id @default(cuid())
+  name      String
+  guardName String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("tenent")
 }
