@@ -2,8 +2,8 @@
 
 import React, { useRef, useState } from "react";
 import { read, utils } from "xlsx";
-import { WizardGuest } from "@/types/props.types.ts";
-import { useWizard } from "@/lib/wizard-context.tsx";
+import {  } from "@/types/props.types.ts";
+import { useWizard, type WizardGuest } from "@/lib/wizard-context";
 
 interface RawRow {
   Name?: string;
@@ -25,7 +25,7 @@ export default function ExcelImportButton() {
       const buffer = await file.arrayBuffer();
       const workBook = read(buffer);
       const firstSheet = workBook.Sheets[workBook.SheetNames[0]];
-      const rows = utils.sheet_to_join<RawRow>(firstSheet);
+      const rows = utils.sheet_to_json<RawRow>(firstSheet);
 
       const guests: WizardGuest[] = rows
         .filter(function hasName(

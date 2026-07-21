@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import { Field } from "../ui/Field.tsx";
 import { Input } from "../ui/Input.tsx";
-import { WizardGuest } from "@/types/props.types.ts";
-import { useWizard } from "@/lib/wizard-context.tsx";
+import { useWizard, type WizardGuest } from "@/lib/wizard-context";
 
 export default function AddGuestForm() {
   const { addGuest } = useWizard();
@@ -15,6 +14,7 @@ export default function AddGuestForm() {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    console.log("handleSubmit fired", name)
     if (!name.trim()) {
       setError("Guest name is required");
       return;
@@ -27,6 +27,7 @@ export default function AddGuestForm() {
       phone: phone.trim() || undefined,
       source: "manual",
     };
+    console.log("Adding guest", guest)
     addGuest(guest);
     setName("");
     setEmail("");

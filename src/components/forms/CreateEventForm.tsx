@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { EventFormState } from "@/types/props.types.ts";
 import { Field } from "@/components/ui/Field.tsx";
 import { Input } from "@/components/ui/Input.tsx";
 import { TextArea } from "@/components/ui/Textarea.tsx";
-
+import { useWizard } from "@/lib/wizard-context";
 
 const initialState: EventFormState = {
   name: "",
@@ -18,6 +19,8 @@ const initialState: EventFormState = {
 };
 
 export default function CreateEventForm() {
+  const router = useRouter();
+  const { setEvent } = useWizard();
   const [form, setForm] = useState<EventFormState>(initialState);
   const [errors, setErrors] = useState<
     Partial<Record<keyof EventFormState, string>>
@@ -34,19 +37,22 @@ export default function CreateEventForm() {
     };
   }
 
+  function validate(values: EventFormState) {
+    const nextErrors: Partial<Record<keyof EventFormState, string>> = {};
+    if (!values.name.trim()) nextErrors.name = "Event name is required";
+
+    return nextErrors;
+  }
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const nextErrors = validate(form);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
     // TODO: implement POST /api/events request handling
-    console.log("submitting event", form);
-  }
-  function validate(values: EventFormState) {
-    const nextErrors: Partial<Record<keyof EventFormState, string>> = {};
-    if (!values.name.trim()) nextErrors.name = "Event name is required";
+    setEvent(form);
+    router.push("/events/new/guests");
 
-    return nextErrors;
+    console.log("submitting event", form);
   }
   return (
     <form

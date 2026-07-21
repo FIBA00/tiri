@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning].
 
 - / feat-forms
 
-## [0.0.2] - 2026-07-20
+## [0.0.1] - 2026-07-20-21
 
 ### Added
 
@@ -20,24 +20,28 @@ and this project adheres to [Semantic Versioning].
 - new CreateEventForm to handle the form creation of event cards.
 - added model in the prisma schema related to guest and event.
 - adding guest forms created
-- new types creaetd in the props.types.ts for centralized type mgmt.
-- geusts page added to manage the adding and removing of guests.
+- new types created in the props.types.ts for centralized type mgmt.
+- guests page added to manage the adding and removing of guests.
 - added cards component to have card templates. (draft)
 - added cards template
 - added cards template view page
 - added preview route page
+- added routing push on the new events page , for demo purposes.
 
 ### Changed
+- changed the import of wizard props to its own file for better type management.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
 - bug in the redirecting the events page introduced due to unused useEffect to control the side effect of using router .
+- type bug in the wizard context resulting in guest list creation silent error.
 
 ### Security
-
+- did pnpm typecheck throughout the project to ensure type safety and avoid runtime errors.
 ## [0.0.1] - 2026-07-20
 
 - initial release

@@ -164,8 +164,8 @@ model Invite {
   id          String    @id @default(uuid())
   guestId     String    @unique
   guest       Guest     @relation(fields: [guestId], references: [id])
+  cardId      String
   card        Card      @relation(fields: [cardId], references: [id])
-  cardId      String?
   status      String //sent, delivered, opened, accepted, declined, pending 
   checkedInAt DateTime?
   createdAt   DateTime  @default(now())

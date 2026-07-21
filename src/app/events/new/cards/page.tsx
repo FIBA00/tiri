@@ -1,11 +1,10 @@
 // src/app/events/new/cards/page.tsx
 "use client";
-
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useWizard } from "@/lib/wizard-context.tsx";
-import { templates } from "@/app/events/new/cards/CardTemplates";
-import { useEffect } from "react";
+import { useWizard } from "@/lib/wizard-context";
+import { templates } from "@/app/events/new/cards/CardTemplates.tsx";
 
 
 export default function CardsPage() {

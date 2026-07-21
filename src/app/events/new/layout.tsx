@@ -5,7 +5,7 @@
 // (Once a backend exists, new becomes a real [id],
 // and the context gets deleted — the routes underneath don't need to change shape.)
 
-import { WizardProvider } from "@/lib/wizard-context.tsx"
+import { WizardProvider } from "@/lib/wizard-context"
 
 export default function EventsLayout({ children }: { children: React.ReactNode }) {
     return <WizardProvider>{children}</WizardProvider>

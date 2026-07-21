@@ -1,9 +1,8 @@
-"use clients";
-
-import { templates } from "@/app/events/new/cards/CardTemplates";
-import { useWizard } from "@/lib/wizard-context.tsx";
-import { useRouter } from "next/navigation";
+"use client";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { templates } from "@/app/events/new/cards/CardTemplates";
+import { useWizard } from "@/lib/wizard-context";
 
 export default function PreviewPage() {
   const router = useRouter();

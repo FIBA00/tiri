@@ -1,7 +1,23 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { WizardEvent, WizardGuest } from "@/types/props.types.ts";
+export interface WizardEvent {
+  name: string;
+  description: string;
+  date: string;
+  venueName: string;
+  locationDescription: string;
+  address: string;
+  venueNotes: string;
+}
+export interface WizardGuest {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  notes?: string;
+  source: "manual" | "excel";
+}
 
 interface WizardState {
   event: WizardEvent | null;
@@ -53,22 +69,22 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
 
   // functions for controlling the events
   function setEvent(event: WizardEvent) {
-    setState(function update(prev) {
+    setState(function update(prev): WizardState {
       return { ...prev, event };
     });
   }
   function addGuest(guest: WizardGuest) {
-    setState(function update(prev) {
-      return { ...prev, geusts: [...prev.guests, guest] };
+    setState(function update(prev): WizardState {
+      return { ...prev, guests: [...prev.guests, guest] };
     });
   }
   function addGuests(guests: WizardGuest[]) {
-    setState(function update(prev) {
+    setState(function update(prev): WizardState {
       return { ...prev, guests: [...prev.guests, ...guests] };
     });
   }
   function removeGuest(id: string) {
-    setState(function update(prev) {
+    setState(function update(prev): WizardState {
       return {
         ...prev,
         guests: prev.guests.filter(function keep(guest) {

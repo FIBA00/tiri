@@ -3,25 +3,6 @@ export interface SideBarProps {
   onClose: () => void;
 }
 
-export interface WizardGuest {
-  id: string;
-  name: string;
-  email?: string;
-  phone?: string;
-  notes?: string;
-  source: "manual" | "excel";
-}
-
-export interface WizardEvent {
-  name: string;
-  description: string;
-  date: string;
-  venueName: string;
-  locationDescription: string;
-  address: string;
-  venueNotes: string;
-}
-
 export interface FieldProps {
   label: string;
   htmlFor: string;
