@@ -16,7 +16,7 @@ export default function Hero() {
             RSVPs come in — no paper, no lost invitations, no guesswork.
           </p>
           <div className="mt-8 flex gap-4">
-            <a href="/auth/sign-up" className="btn-seal">
+            <a href="/events/new" className="btn-seal">
               Create your event
             </a>
             <a href="#how-it-works" className="btn-ghost">
