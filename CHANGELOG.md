@@ -52,6 +52,31 @@ and this project adheres to [Semantic Versioning].
 
 - initial release
 
+## [0.0.1] - 2026-07-21
+
+### Added
+
+- added new files for auth include:
+  - src/lib/schemas/auth.schema.ts (new)
+  - src/lib/auth-client.ts (new — the proxy)
+  - src/components/forms/SignInForm.tsx (new)
+  - src/components/forms/SignUpForm.tsx (new)
+  - src/app/auth/sign-in/page.tsx (replace)
+  - src/app/auth/sign-up/page.tsx (replace)
+  - src/app/auth/page.tsx (replace)
+- bug fixes related to package manager usage.
+- added new dependencies.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+### Security
+
 <!-- Links -->
 
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
