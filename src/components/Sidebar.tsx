@@ -20,9 +20,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
       {/* backdrop */}
       <div
         onClick={onClose}
-        className={`fixed inset-0 z-40 bg-ink/40 transition-opacity duration-200 ${
-          open ? "opacity-100" : "pointer-events-none opacity-0"
-        }`}
+        className={`fixed inset-0 z-40 bg-ink/40 transition-opacity duration-200 ${open ? "opacity-100" : "pointer-events-none opacity-0"
+          }`}
         aria-hidden="true"
       />
 
@@ -73,11 +72,11 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             ))}
           </div>
           <div className="mt-4 flex flex-col gap-2">
-            <Link href="/sign-up" onClick={onClose} className="btn-seal w-full">
+            <Link href="/auth/sign-up" onClick={onClose} className="btn-seal w-full">
               Get started
             </Link>
             <Link
-              href="/sign-in"
+              href="/auth/sign-in"
               onClick={onClose}
               className="btn-ghost w-full"
             >
