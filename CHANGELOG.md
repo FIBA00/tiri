@@ -27,13 +27,17 @@ and this project adheres to [Semantic Versioning].
 - added cards template view page
 - added preview route page
 - added routing push on the new events page , for demo purposes.
+- added guest schema that uses zod to validate the guest data before sending it to the backend.
 
 ### Changed
+
 - changed the import of wizard props to its own file for better type management.
 
 ### Deprecated
 
 ### Removed
+
+- manual excel upload validation in the excel import button
 
 ### Fixed
 
@@ -41,7 +45,9 @@ and this project adheres to [Semantic Versioning].
 - type bug in the wizard context resulting in guest list creation silent error.
 
 ### Security
+
 - did pnpm typecheck throughout the project to ensure type safety and avoid runtime errors.
+
 ## [0.0.1] - 2026-07-20
 
 - initial release
