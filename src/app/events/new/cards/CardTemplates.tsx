@@ -7,17 +7,19 @@ export function ClassicSealTemplate({
   guestName,
 }: CardTemplateProps) {
   return (
-    <div className="card-surface aspect-3/4 w-full max-w-xs p-8 flex flex-col items-center text-center border-2 border-gold">
-      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-seal text-paper-raised font-display text-xl mb-6">
+    <div className="card-surface aspect-[3/2] w-full max-w-lg p-8 flex items-center border-2 border-gold">
+      <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-seal text-paper-raised font-display text-2xl">
         T
       </span>
-      <p className="eyebrow">You are invited</p>
-      <h3 className="mt-3 font-display text-2xl text-ink">{eventName}</h3>
-      <p className="mt-2 text-sm text-muted">{date}</p>
-      <p className="text-sm text-muted">{venueName}</p>
-      {guestName ? (
-        <p className="mt-6 font-mono text-xs text-gold">for {guestName}</p>
-      ) : null}
+      <div className="ml-6 border-l border-hairline pl-6 flex-1">
+        <p className="eyebrow">You are invited</p>
+        <h3 className="mt-2 font-display text-2xl text-ink">{eventName}</h3>
+        <p className="mt-2 text-sm text-muted">{date}</p>
+        <p className="text-sm text-muted">{venueName}</p>
+        {guestName ? (
+          <p className="mt-4 font-mono text-xs text-gold">for {guestName}</p>
+        ) : null}
+      </div>
     </div>
   );
 }
@@ -29,21 +31,23 @@ export function MinimalLineTemplate({
   guestName,
 }: CardTemplateProps) {
   return (
-    <div className="card-surface aspect-3/4 w-full max-w-xs p-8 flex flex-col justify-between">
-      <p className="eyebrow">Invitation</p>
+    <div className="card-surface aspect-[3/2] w-full max-w-lg p-8 flex flex-col justify-between">
+      <div className="flex items-start justify-between">
+        <p className="eyebrow">Invitation</p>
+        {guestName ? (
+          <p className="font-mono text-xs text-muted">{guestName}</p>
+        ) : null}
+      </div>
       <div>
         <h3 className="font-display text-3xl text-ink leading-tight">
           {eventName}
         </h3>
-        <div className="mt-4 h-px w-12 bg-seal" />
-        <p className="mt-4 text-sm text-muted">{date}</p>
-        <p className="text-sm text-muted">{venueName}</p>
+        <div className="mt-4 h-px w-16 bg-seal" />
+        <div className="mt-4 flex gap-6">
+          <p className="text-sm text-muted">{date}</p>
+          <p className="text-sm text-muted">{venueName}</p>
+        </div>
       </div>
-      {guestName ? (
-        <p className="font-mono text-xs text-muted">{guestName}</p>
-      ) : (
-        <span />
-      )}
     </div>
   );
 }
@@ -55,15 +59,19 @@ export function EmeraldBorderTemplate({
   guestName,
 }: CardTemplateProps) {
   return (
-    <div className="aspect-3/4 w-full max-w-xs p-2 bg-emerald rounded-2xl">
-      <div className="h-full w-full rounded-xl bg-paper-raised p-6 flex flex-col items-center text-center justify-center">
-        <p className="eyebrow text-emerald">Please join us</p>
-        <h3 className="mt-3 font-display text-xl text-ink">{eventName}</h3>
-        <p className="mt-2 text-sm text-muted">{date}</p>
-        <p className="text-sm text-muted">{venueName}</p>
-        {guestName ? (
-          <p className="mt-4 font-mono text-xs text-emerald">{guestName}</p>
-        ) : null}
+    <div className="aspect-[3/2] w-full max-w-lg p-2 bg-emerald rounded-2xl">
+      <div className="h-full w-full rounded-xl bg-paper-raised px-8 flex items-center gap-8">
+        <div className="flex-1 text-right border-r border-emerald/30 pr-8">
+          <p className="eyebrow text-emerald">Please join us</p>
+          <h3 className="mt-2 font-display text-xl text-ink">{eventName}</h3>
+        </div>
+        <div className="flex-1 text-left">
+          <p className="text-sm text-muted">{date}</p>
+          <p className="text-sm text-muted">{venueName}</p>
+          {guestName ? (
+            <p className="mt-3 font-mono text-xs text-emerald">{guestName}</p>
+          ) : null}
+        </div>
       </div>
     </div>
   );

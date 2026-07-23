@@ -1,3 +1,4 @@
+// features/schemas/events-analytics.schema.ts
 import { z } from "zod";
 
 export const getEventAnalyticsSchema = z.object({

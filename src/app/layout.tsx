@@ -30,7 +30,8 @@ export const metadata: Metadata = {
 
 // internal imports
 import { ThemeProvider } from "@/components/theme-provider.tsx";
-
+import NavBar from "@/components/NavBar.tsx";
+import Footer from "@/components/Footer.tsx";
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -43,7 +44,12 @@ export default function RootLayout({
       className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <NavBar />
+
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
