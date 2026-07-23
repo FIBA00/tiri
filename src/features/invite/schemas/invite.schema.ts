@@ -14,8 +14,6 @@ export const createInviteSchema = z.object({
   description: z.string().optional(),
 });
 
-export type createInviteInput = z.infer<typeof createInviteSchema>;
-
 export const getInviteSchema = z.object({
   page: z.coerce.number().int().min(1).positive().default(1),
   limit: z.coerce.number().int().min(10).max(20).positive().default(10),
@@ -25,8 +23,6 @@ export const getInviteSchema = z.object({
   search: z.string().min(2).optional(),
   eventId: z.cuid(),
 });
-
-export type getInviteInput = z.infer<typeof getInviteSchema>;
 
 export const updateInviteSchema = z.object({
   invitationId: z.string().cuid(),
@@ -43,8 +39,6 @@ export const updateInviteSchema = z.object({
   status: z.enum(["PENDING", "ENTERED", "EXITED", "CANCELED"]).optional(),
 });
 
-export type UpdateInviteInput = z.infer<typeof updateInviteSchema>;
-
 export const sendBulkEmailSchema = z.object({
   invitationIds: z
     .array(z.string().cuid())
@@ -52,4 +46,28 @@ export const sendBulkEmailSchema = z.object({
   customHtmlTemplate: z.string().optional(),
 });
 
+export const wizardGuestInput = z.object({
+  name: z.string().min(1),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+});
+
+export const finalizeAndSendSchema = z.object({
+  event: z.object({
+    name: z.string().min(3),
+    description: z.string().optional(),
+    date: z.coerce.date(),
+    venueName: z.string().optional(),
+    locationDescription: z.string().optional(),
+    address: z.string().optional(),
+    venueNotes: z.string().optional(),
+  }),
+  guests: z.array(wizardGuestInput).min(1),
+  cardMode: z.enum(["unique", "shared"]),
+});
+
 export type SendBulkEmailInput = z.infer<typeof sendBulkEmailSchema>;
+export type FinalizeAndSendInput = z.infer<typeof finalizeAndSendSchema>;
+export type UpdateInviteInput = z.infer<typeof updateInviteSchema>;
+export type getInviteInput = z.infer<typeof getInviteSchema>;
+export type createInviteInput = z.infer<typeof createInviteSchema>;
