@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -59,6 +59,12 @@ export default function SignInForm() {
       >
         {isSubmitting ? "Signing in..." : "Sign in"}
       </button>
+      <p className="font-mono text-xs text-muted text-center">
+        Don&apos;t have an account?{" "}
+        <Link href="/auth/sign-up" className="text-seal hover:text-seal-hover">
+          Sign up
+        </Link>
+      </p>
     </form>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
+
 export interface WizardEvent {
   name: string;
   description: string;
@@ -32,9 +33,11 @@ interface WizardContextValue extends WizardState {
   addGuests: (guests: WizardGuest[]) => void;
   removeGuest: (id: string) => void;
   setTemplate: (templateId: string, cardMode: "unique" | "shared") => void;
+  updateGuest: (id: string, path: Partial<WizardGuest>) => void;
 }
 
 const STORAGE_KEY = "tiri-wizard-state";
+
 const defaultState: WizardState = {
   event: null,
   guests: [],
@@ -54,13 +57,13 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
         setState(JSON.parse(raw));
       } catch (error) {
         // NOTE: corrupted state, fall back to defaults silently.
-        // TODO: use logging system to send this error logs to central lgger.
+        // TODO: use logging system to send this error logs to central logger.
       }
     }
     setHydrated(true);
   }, []);
   useEffect(
-    function presistToStorage() {
+    function persistToStorage() {
       if (!hydrated) return;
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     },
@@ -93,6 +96,17 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
       };
     });
   }
+  function updateGuest(id: string, patch: Partial<WizardGuest>) {
+    setState(function update(prev): WizardState {
+      return {
+        ...prev,
+        guests: prev.guests.map(function apply(guest) {
+          return guest.id === id ? { ...guest, ...patch } : guest;
+        }),
+      };
+    });
+  }
+
   function setTemplate(templateId: string, cardMode: "unique" | "shared") {
     setState(function update(prev) {
       return { ...prev, templateId, cardMode };
@@ -108,6 +122,7 @@ export function WizardProvider({ children }: { children: React.ReactNode }) {
         addGuests,
         removeGuest,
         setTemplate,
+        updateGuest,
       }}
     >
       {children}

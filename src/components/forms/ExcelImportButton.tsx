@@ -4,6 +4,7 @@ import React, { useRef, useState } from "react";
 import { read, utils } from "xlsx";
 import { guestRowSchema } from "@/lib/schemas/guest.schema.ts";
 import { useWizard, type WizardGuest } from "@/lib/wizard-context";
+import { generateId } from "@/lib/id.ts";
 
 interface RawRow {
   Name?: string;
@@ -16,7 +17,7 @@ function toGuest(row: {
   Phone?: string;
 }): WizardGuest {
   return {
-    id: crypto.randomUUID(),
+    id: generateId(),
     name: row.Name,
     email: row.Email || undefined,
     phone: row.Phone || undefined,
