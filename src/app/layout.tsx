@@ -43,12 +43,14 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <NavBar />
-
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <NavBar />
+
+          {children}
+          <Footer />
+        </ThemeProvider>
       </body>
-      <Footer />
     </html>
   );
 }
