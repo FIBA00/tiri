@@ -1,4 +1,6 @@
 "use client";
+
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -77,6 +79,12 @@ export default function SingUpForm() {
       >
         {isSubmitting ? "Creating account..." : "Create account"}
       </button>
+      <p className="font-mono text-xs text-muted text-center">
+        Already have an account?{" "}
+        <Link href="/auth/sign-in" className="text-seal hover:text-seal-hover">
+          Sign in
+        </Link>
+      </p>
     </form>
   );
 }
