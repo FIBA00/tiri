@@ -1,3 +1,4 @@
+// features/services/get-events.ts
 import { prisma } from "@/lib/prisma";
 import { GetEventsInput } from "../schemas/event.schema";
 import { Prisma } from "@/generated/prisma/client";
@@ -27,7 +28,7 @@ export async function GetEvents(params: GetEventsInput, userId: string) {
       },
       include: {
         _count: {
-          select: { inviations: true },
+          select: { invitations: true },
         },
       },
     }),

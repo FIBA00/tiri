@@ -1,12 +1,16 @@
+// src/app/events/new/preview/page.tsx
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { templates } from "@/app/events/new/cards/CardTemplates";
 import { useWizard } from "@/lib/wizard-context";
+import { finalizeAndSendAction } from "@/features/invite/actions/invite.actions";
 
 export default function PreviewPage() {
   const router = useRouter();
   const { event, guests, templateId, cardMode } = useWizard();
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(
     function redirectIfNoEvent() {
@@ -22,6 +26,33 @@ export default function PreviewPage() {
   });
   if (!tpl) return null;
   const { Component } = tpl;
+
+  async function handleSend() {
+    if (!event) return;
+    setSending(true);
+    setError("");
+
+    const result = await finalizeAndSendAction({
+      event,
+      guests: guests.map(function toGuestInput(guest) {
+        return { name: guest.name, email: guest.email, phone: guest.phone};
+      }),
+      cardMode,
+    });
+    setSending(false);
+
+    const payload = result?.data;
+
+    if (!payload?.success || !payload.data) {
+      setError(
+        result?.data?.error ?? result?.serverError ?? "Something went wrong sending invitations.",
+      );
+      return;
+    }
+
+    sessionStorage.removeItem("tiri-wizard-state");
+    router.push(`/events/${payload.data.eventId}`);
+  }
 
   return (
     <main className="min-h-screen px-6 py-16 max-w-3xl mx-auto flex flex-col gap-8 items-center text-center">
@@ -43,12 +74,17 @@ export default function PreviewPage() {
       />
 
       <p className="max-w-md text-sm text-muted">
-        This is what {guests[0]?.name ?? "each guest"} will see. Sending, QR
-        check-in codes, and live tracking connect once the backend routes exist.
+        This is what {guests[0]?.name ?? "each guest"} will see.
       </p>
 
-      <button className="btn-seal" disabled>
-        Send invitations — coming soon
+      {error ? <p className="text-sm text-seal">{error}</p> : null}
+
+      <button
+        onClick={handleSend}
+        disabled={sending}
+        className="btn-seal disabled:opacity-40"
+      >
+        {sending ? "Sending…" : "Send invitations"}
       </button>
     </main>
   );

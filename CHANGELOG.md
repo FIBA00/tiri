@@ -77,6 +77,41 @@ and this project adheres to [Semantic Versioning].
 
 ### Security
 
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog],
+and this project adheres to [Semantic Versioning].
+
+## [Unreleased]
+
+- /
+
+## [0.0.2] - 2026-07-23
+
+### Added
+
+- dashboard page 
+- event summary card in features
+- preview page
+- invite server action
+- invite server action schema
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- typo in prisma naming from "inviations" to "invitations".
+- fixed syntax issue in the preview page
+### Security
+
+
+- initial release
+
 <!-- Links -->
 
 [keep a changelog]: https://keepachangelog.com/en/1.0.0/
