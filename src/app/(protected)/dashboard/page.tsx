@@ -1,7 +1,5 @@
 // src/app/dashboard/page.tsx
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
 import { GetEvents } from "@/features/event/services/get-events";
 import { EventSummaryCard } from "@/features/event/components/EventSummaryCard";
 import { GetServerSession } from "@/lib/session";

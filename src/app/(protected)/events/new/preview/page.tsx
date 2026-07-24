@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { templates } from "@/app/events/new/cards/CardTemplates";
+import { templates } from "@/app/(protected)/events/new/cards/CardTemplates";
 import { useWizard } from "@/lib/wizard-context";
 import { finalizeAndSendAction } from "@/features/invite/actions/invite.actions";
 
@@ -35,7 +35,7 @@ export default function PreviewPage() {
     const result = await finalizeAndSendAction({
       event,
       guests: guests.map(function toGuestInput(guest) {
-        return { name: guest.name, email: guest.email, phone: guest.phone};
+        return { name: guest.name, email: guest.email, phone: guest.phone };
       }),
       cardMode,
     });

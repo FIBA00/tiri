@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useWizard } from "@/lib/wizard-context";
-import { templates } from "@/app/events/new/cards/CardTemplates.tsx";
+import { templates } from "@/app/(protected)/events/new/cards/CardTemplates.tsx";
 
 
 export default function CardsPage() {
@@ -67,9 +67,8 @@ export default function CardsPage() {
             <button
               key={tpl.id}
               onClick={() => setSelected(tpl.id)}
-              className={`rounded-2xl p-1 transition-all ${
-                selected === tpl.id ? "ring-2 ring-seal" : "ring-0"
-              }`}
+              className={`rounded-2xl p-1 transition-all ${selected === tpl.id ? "ring-2 ring-seal" : "ring-0"
+                }`}
             >
               <Component
                 eventName={event.name}
