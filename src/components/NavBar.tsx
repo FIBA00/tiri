@@ -4,11 +4,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { navLinks } from "@/lib/nav-links";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeSwitcher } from "@/components/theme-toggle";
 import Sidebar from "@/components/Sidebar";
+import { authClient } from "@/lib/auth-client";
 
 export default function NavBar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { data: session, isPending, error } = authClient.useSession()
 
   return (
     <>
@@ -38,19 +40,22 @@ export default function NavBar() {
           </div>
 
           <div className="flex items-center gap-4">
-            <ThemeToggle />
-            <Link
-              href="/auth/sign-in"
-              className="hidden md:inline text-sm text-ink hover:text-seal"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/auth/sign-up"
-              className="hidden md:inline-flex btn-seal !px-4 !py-2 text-sm"
-            >
-              Get started
-            </Link>
+            <ThemeSwitcher />
+            {
+              (session) ? (<Link href={"/dashboard"} className="hidden md:inline text-sm text-ink hover:text-seal"> Dashboard </Link>) : (<> <Link
+                href="/auth/sign-in"
+                className="hidden md:inline text-sm text-ink hover:text-seal"
+              >
+                Sign in
+              </Link>
+                <Link
+                  href="/auth/sign-up"
+                  className="hidden md:inline-flex btn-seal !px-4 !py-2 text-sm"
+                >
+                  Get started
+                </Link></>
+              )
+            }
 
             <button
               onClick={() => setSidebarOpen(true)}
@@ -62,7 +67,7 @@ export default function NavBar() {
           </div>
         </nav>
       </header>
-      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <Sidebar session={session} open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
     </>
 
