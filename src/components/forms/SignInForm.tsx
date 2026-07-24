@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,10 +9,9 @@ import { Field } from "../ui/Field.tsx";
 import { Input } from "../ui/Input.tsx";
 
 import { signInSchema, type SignInInput } from "@/lib/schemas/auth.schema.ts";
-import { signIn } from "@/lib/auth-client.ts";
+import { authClient } from "@/lib/auth-client.ts";
 
 export default function SignInForm() {
-  const router = useRouter();
   const [formError, setFormError] = useState("");
   const {
     register,
@@ -22,12 +21,11 @@ export default function SignInForm() {
 
   async function onSubmit(values: SignInInput) {
     setFormError("");
-    const result = await signIn(values.email, values.password);
-    if (!result.success) {
-      setFormError(result.error || "Sign in failed");
+    const { data, error } = await authClient.signIn.email({ email: values.email, password: values.password, callbackURL: "/dashboard" })
+    if (error) {
+      setFormError("Sign in failed: " + error.message || "Sign in failed");
       return;
     }
-    router.push("/");
   }
   return (
     <form

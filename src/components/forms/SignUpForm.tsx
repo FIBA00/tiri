@@ -10,10 +10,9 @@ import { Field } from "@/components/ui/Field.tsx";
 import { Input } from "@/components/ui/Input.tsx";
 
 import { signUpSchema, type SignUpInput } from "@/lib/schemas/auth.schema";
-import { signUp } from "@/lib/auth-client";
+import { authClient } from "@/lib/auth-client";
 
 export default function SingUpForm() {
-  const router = useRouter();
   const [formError, setFormError] = useState("");
   const {
     register,
@@ -23,12 +22,12 @@ export default function SingUpForm() {
 
   async function onSubmit(values: SignUpInput) {
     setFormError("");
-    const result = await signUp(values.name, values.email, values.password);
-    if (!result.success) {
-      setFormError(result.error || "Sign up failed");
+    const { email, name, password } = values
+    const { data, error } = await authClient.signUp.email({ email, password, name, callbackURL: "/" })
+    if (error) {
+      setFormError("Sign up failed" + error.message || "Sign up failed");
       return;
     }
-    router.push("/");
   }
   return (
     <form
