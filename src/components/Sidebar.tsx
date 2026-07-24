@@ -4,9 +4,12 @@ import type { SideBarProps } from "@/types/props.types.ts";
 import { useEffect } from "react";
 import { navLinks, sidebarExtraLinks } from "@/lib/nav-links.ts";
 import Link from "next/link";
+import { SquareArrowRightExit } from "lucide-react"
+import { authClient } from "@/lib/auth-client";
+import { Button } from "./ui/button";
+import { redirect } from "next/navigation";
 
-
-export default function SideBar({ open, onClose }: SideBarProps) {
+export default function SideBar({ open, onClose, session }: SideBarProps) {
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
@@ -14,6 +17,11 @@ export default function SideBar({ open, onClose }: SideBarProps) {
     document.addEventListener("keydown", handleKey);
     return () => document.removeEventListener("keydown", handleKey);
   }, [onClose]);
+  const handleSignout = async () => {
+    await authClient.signOut()
+    onClose()
+    redirect("/auth/sign-in")
+  }
 
   return (
     <>
@@ -72,16 +80,20 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             ))}
           </div>
           <div className="mt-4 flex flex-col gap-2">
-            <Link href="/auth/sign-up" onClick={onClose} className="btn-seal w-full">
-              Get started
-            </Link>
-            <Link
-              href="/auth/sign-in"
-              onClick={onClose}
-              className="btn-ghost w-full"
-            >
-              Sign in
-            </Link>
+            {(session) ? (<Button onClick={handleSignout} className={"hover:bg-red-700 w-full hover:text-paper"}> <SquareArrowRightExit /> Logout</Button>) : (
+              <>
+                <Link href="/auth/sign-up" onClick={onClose} className="btn-seal w-full">
+                  Get started
+                </Link>
+                <Link
+                  href="/auth/sign-in"
+                  onClick={onClose}
+                  className="btn-ghost w-full"
+                >
+                  Sign in
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </aside>

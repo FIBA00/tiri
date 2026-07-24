@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, Inter, IBM_Plex_Mono, Geist } from "next/font/google";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -29,10 +29,15 @@ export const metadata: Metadata = {
 };
 
 // internal imports
-import { ThemeProvider } from "@/components/theme-provider.tsx";
 import NavBar from "@/components/NavBar.tsx";
 import Footer from "@/components/Footer.tsx";
-export default function RootLayout({
+import { ThemeProvider } from "next-themes";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -41,15 +46,20 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", fraunces.variable, inter.variable, plexMono.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full flex flex-col">
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <NavBar />
 
           {children}
-          <Footer />
         </ThemeProvider>
+        <Footer />
       </body>
     </html>
   );

@@ -1,5 +1,8 @@
+import { authClient } from "@/lib/auth-client";
+
 export interface SideBarProps {
   open: boolean;
+  session: typeof authClient.$Infer.Session | null;
   onClose: () => void;
 }
 

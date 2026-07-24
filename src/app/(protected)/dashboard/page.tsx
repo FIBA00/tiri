@@ -4,9 +4,10 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { GetEvents } from "@/features/event/services/get-events";
 import { EventSummaryCard } from "@/features/event/components/EventSummaryCard";
+import { GetServerSession } from "@/lib/session";
 
 export default async function DashboardPage() {
-  const session = await auth.api.getSession({ headers: await headers() });
+  const session = await GetServerSession();
   if (!session?.user?.id) {
     redirect("/auth/sign-in");
   }
