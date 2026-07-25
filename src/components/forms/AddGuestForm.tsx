@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { Field } from "../ui/Field.tsx";
 import { Input } from "../ui/Input.tsx";
 import { useWizard, type WizardGuest } from "@/lib/wizard-context";
+import { generateId } from "@/lib/id.ts";
+
 
 export default function AddGuestForm() {
   const { addGuest } = useWizard();
@@ -21,7 +23,7 @@ export default function AddGuestForm() {
     }
 
     const guest: WizardGuest = {
-      id: crypto.randomUUID(),
+      id: generateId(),
       name: name.trim(),
       email: email.trim() || undefined,
       phone: phone.trim() || undefined,

@@ -11,7 +11,7 @@ export default function CtaBand() {
         <p className="mt-4 text-paper/70">
           Free while Tiri is in early access — no card required, ironically.
         </p>
-        <Link href="/sign-up" className="btn-seal mt-8 inline-flex">
+        <Link href="/auth/sign-up" className="btn-seal mt-8 inline-flex">
           Create your event
         </Link>
       </div>

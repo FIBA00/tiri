@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import { createAuthMiddleware } from "better-auth/api";
+import { generateId } from "./id.ts";
 
 interface SessionResponse {
   user: {
@@ -44,7 +45,7 @@ export const auth = betterAuth({
           if (!defaultRole) {
             defaultRole = await prisma.role.create({
               data: {
-                id: crypto.randomUUID(),
+                id: generateId(),
                 name: "User",
                 guardName: "user",
               },
@@ -53,7 +54,7 @@ export const auth = betterAuth({
 
           await prisma.userRole.create({
             data: {
-              id: crypto.randomUUID(),
+              id: generateId(),
               userId: user.id,
               roleId: defaultRole.id,
             },

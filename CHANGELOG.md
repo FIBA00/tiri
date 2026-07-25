@@ -92,23 +92,29 @@ and this project adheres to [Semantic Versioning].
 
 ### Added
 
-- dashboard page 
+- dashboard page
 - event summary card in features
 - preview page
 - invite server action
 - invite server action schema
+- added event details page
+- updated guest editing form to edit details of the guests.
 
 ### Changed
+
+- instead of relying on device based id generation we added util to generate id on any device.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
-- typo in prisma naming from "inviations" to "invitations".
-- fixed syntax issue in the preview page
-### Security
 
+- typo in prisma naming from "inviations" to "invitations".
+- fixed syntax issue in the preview page.
+- different sections to use the generateId function to have new id,
+
+### Security
 
 - initial release
 
