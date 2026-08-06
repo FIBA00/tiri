@@ -1,112 +1,84 @@
-<!-- <p align="center">
-  <a href="" rel="noopener">
- <img src="https://i.imgur.com/AZ2iWek.png" alt="Project logo"></a>
-</p> -->
-<h3 align="center">Tiri Event invitation system</h3>
+# Tiri — Event Invitation System
 
-<div align="center">
+Tiri is a Next.js application for creating events, managing guests, sending digital invitations, and handling event-day check-in.
 
-[![Hackathon](https://img.shields.io/badge/hackathon-name-orange.svg)](http://hackathon.url.com)
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![GitHub Issues](https://img.shields.io/github/issues/kylelobo/The-Documentation-Compendium.svg)](https://github.com/kylelobo/The-Documentation-Compendium/issues)
-[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/kylelobo/The-Documentation-**Compendium**.svg)](https://github.com/kylelobo/The-Documentation-Compendium/pulls)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+## Features
 
-</div>
+- Email/password and Google sign-in (Better Auth)
+- Event creation flow with guest management
+- Invitation generation and sending
+- Invitation check-in terminal by event
+- Dashboard with event summaries
 
----
+## Tech Stack
 
-<p align="center"> Few lines describing your project.
-    <br> 
-</p>
+- Next.js 16 + React 19
+- TypeScript
+- Prisma + PostgreSQL
+- Better Auth
+- Tailwind CSS
 
-## 📝 Table of Contents
+## Requirements
 
-- [📝 Table of Contents](#-table-of-contents)
-- [🧐 Problem Statement ](#-problem-statement-)
-- [💡 Idea / Solution ](#-idea--solution-)
-- [⛓️ Dependencies / Limitations ](#️-dependencies--limitations-)
-- [🚀 Future Scope ](#-future-scope-)
-- [🏁 Getting Started ](#-getting-started-)
-  - [Prerequisites](#prerequisites)
-  - [Installing](#installing)
-- [🎈 Usage ](#-usage-)
-- [⛏️ Built With ](#️-built-with-)
-- [✍️ Authors ](#️-authors-)
-- [🎉 Acknowledgments ](#-acknowledgments-)
+- Node.js 20+
+- pnpm
+- PostgreSQL
 
-## 🧐 Problem Statement <a name = "problem_statement"></a>
+## Environment Variables
 
-When there is an event example, marriage, graduation, home coming and all other things,
-that needs sending physical and sealed envlopes writing or calling everyone is tiring.
-plus it consumes alot of time so we want to solve the paper invitation creation into
-digital and way of inviting the participants.
+Create a `.env` file in the project root:
 
-## 💡 Idea / Solution <a name = "idea"></a>
-
-- we create templates of different types of events.
-- the user fills the forms to create the event inviation card.
-- fills the contacts and names of guests.
-- then using premade or custom template the user can generate invitiation cards.
-- 
-## ⛓️ Dependencies / Limitations <a name = "limitations"></a>
-
-...
-
-## 🚀 Future Scope <a name = "future_scope"></a>
-
-...
-## 🏁 Getting Started <a name = "getting_started"></a>
-
-...
-### Prerequisites
-
-What things you need to install the software and how to install them.
-
-```
-Give examples
+```env
+DATABASE_URL=******localhost:5432/tiri
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+SMTP_HOST=your_smtp_host
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
 ```
 
-### Installing
+## Getting Started
 
-A step by step series of examples that tell you how to get a development env running.
+1. Install dependencies:
 
-Say what the step will be
-
-```
-Give the example
+```bash
+pnpm install
 ```
 
-And repeat
+2. Generate Prisma client and run migrations:
 
+```bash
+pnpm prisma generate
+pnpm prisma migrate dev
 ```
-until finished
+
+3. Start development server:
+
+```bash
+pnpm dev
 ```
 
-## 🎈 Usage <a name="usage"></a>
+App runs at `http://localhost:3000`.
 
-Add notes about how to use the system.
+## Useful Scripts
 
-## ⛏️ Built With <a name = "tech_stack"></a>
+- `pnpm dev` — start development server
+- `pnpm build` — build for production
+- `pnpm start` — run production build
+- `pnpm lint` — run ESLint
+- `pnpm typecheck` — run TypeScript checks
 
-- [PostregresSQL](https://www.postgresql.com/) - Database
-- [Nextjs](https://nextjs.com/) - Server Framework
-- [React](https://Reactjs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
+## Docker (Optional)
 
-## ✍️ Authors <a name = "authors"></a>
+The repository includes `Dockerfile` and `docker-compose.yml` for containerized setup with PostgreSQL.
+
+```bash
+docker compose up --build
+```
+
+## Authors
 
 - [@FIBA00](https://github.com/FIBA00)
 - [@ENDragnee](https://github.com/ENDragnee)
-<!-- - [@FIBA00](https://github.com/FIBA00) -->
-- 
-
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors)
-who participated in this project.
-
-## 🎉 Acknowledgments <a name = "acknowledgments"></a>
-
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
-****
