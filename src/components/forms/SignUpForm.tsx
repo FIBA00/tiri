@@ -23,7 +23,7 @@ export default function SingUpForm() {
   async function onSubmit(values: SignUpInput) {
     setFormError("");
     const { email, name, password } = values
-    const { data, error } = await authClient.signUp.email({ email, password, name, callbackURL: "/" })
+    const { data, error } = await authClient.signUp.email({ email, password, name, callbackURL: "/sign-in" })
     if (error) {
       setFormError("Sign up failed" + error.message || "Sign up failed");
       return;
