@@ -5,15 +5,15 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --paper: #f6f1e7;
-  --paper-raised: #fffdf8;
+  --paper: #e6e6e6;
+  --paper-raised: #f4e8cb;
   --ink: #211b26;
-  --seal: #8c2f39;
-  --seal-hover: #741f28;
+  --seal: #bc2938;
+  --seal-hover: #cc1a2c;
   --emerald: #1f5c4f;
-  --gold: #b8863b;
-  --muted: #8a8175;
-  --hairline: #e4dbc9;
+  --gold: #bc770f;
+  --muted: #65605a;
+  --hairline: #d7c297;
 }
 
 .dark {
@@ -77,4 +77,3 @@
     @apply font-mono text-xs uppercase tracking-[0.2em] text-muted;
   }
 }
-
