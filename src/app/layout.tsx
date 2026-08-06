@@ -58,8 +58,8 @@ export default async function RootLayout({
           <NavBar />
 
           {children}
+          
         </ThemeProvider>
-        <Footer />
       </body>
     </html>
   );
