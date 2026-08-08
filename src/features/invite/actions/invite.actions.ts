@@ -1,4 +1,3 @@
-// src/features/invite/actions/invite.actions.ts — full file
 "use server";
 
 import { authActionClient } from "@/lib/safe-action";
@@ -72,7 +71,7 @@ export const finalizeAndSendAction = authActionClient
   .schema(finalizeAndSendSchema)
   .action(async ({ parsedInput, ctx }) => {
     const { userId } = ctx;
-    const { event, guests, cardMode } = parsedInput;
+    const { event, guests, isDraft } = parsedInput;
 
     const locationParts = [
       event.venueName,
@@ -87,33 +86,23 @@ export const finalizeAndSendAction = authActionClient
         description: event.description,
         date: event.date,
         location: locationParts.length ? locationParts.join(" — ") : undefined,
+        latitude: event.latitude,
+        longitude: event.longitude,
+        templateId: event.templateId,
+        isDraft: isDraft || false,
       },
       userId,
     );
 
-    const rawInvites =
-      cardMode === "shared"
-        ? [
-            {
-              inviteeName:
-                guests.length > 1
-                  ? `${guests[0].name} +${guests.length - 1} guest(s)`
-                  : guests[0].name,
-              quantity: guests.length,
-              eventId: createdEvent.id,
-              email: normalizeEmail(guests.find((g) => g.email)?.email),
-              phoneNumber: normalizePhone(guests[0].phone),
-            },
-          ]
-        : guests.map(function toInviteInput(guest) {
-            return {
-              inviteeName: guest.name,
-              quantity: 1,
-              eventId: createdEvent.id,
-              email: normalizeEmail(guest.email),
-              phoneNumber: normalizePhone(guest.phone),
-            };
-          });
+    const rawInvites = guests.map(function toInviteInput(guest) {
+      return {
+        inviteeName: guest.name,
+        quantity: 1,
+        eventId: createdEvent.id,
+        email: normalizeEmail(guest.email),
+        phoneNumber: normalizePhone(guest.phone),
+      };
+    });
 
     const validInvites: createInviteInput[] = [];
     let skippedCount = 0;
@@ -127,14 +116,24 @@ export const finalizeAndSendAction = authActionClient
       }
     }
 
-    if (validInvites.length === 0) {
-      return {
-        success: false,
-        error: "No valid guests to invite — check names/contact info.",
-      };
+    let createdInvites: any[] = [];
+    if (validInvites.length > 0) {
+      createdInvites = await CreateInvite(validInvites);
     }
 
-    const createdInvites = await CreateInvite(validInvites);
+    if (isDraft) {
+      return {
+        success: true,
+        data: {
+          eventId: createdEvent.id,
+          createdCount: createdInvites.length,
+          skippedCount,
+          sentCount: 0,
+          failedCount: 0,
+          isDraft: true,
+        },
+      };
+    }
 
     const emailableIds = createdInvites
       .filter((invite) => invite.email)
@@ -151,6 +150,7 @@ export const finalizeAndSendAction = authActionClient
         eventId: createdEvent.id,
         createdCount: createdInvites.length,
         skippedCount,
+        isDraft: false,
         ...mailResult,
       },
     };

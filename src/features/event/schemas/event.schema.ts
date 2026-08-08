@@ -3,8 +3,12 @@ import { z } from "zod";
 export const createEventSchema = z.object({
   name: z.string().min(3, "Event name must be at least 3 characters"),
   location: z.string().optional(),
+  latitude: z.number().optional().nullable(),
+  longitude: z.number().optional().nullable(),
   description: z.string().optional(),
   date: z.coerce.date({ error: "Event date is required" }),
+  isDraft: z.boolean().optional().default(false),
+  templateId: z.string().optional().nullable(),
 });
 
 export type CreateEventInput = z.infer<typeof createEventSchema>;

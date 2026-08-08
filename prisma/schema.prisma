@@ -1,8 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
@@ -23,6 +21,7 @@ model User {
   accounts  Account[]
   userRoles UserRole[]
   events    Event[]
+  templates Template[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -112,12 +111,18 @@ model Event {
   id          String   @id @default(cuid())
   name        String
   location    String?
+  latitude    Float?
+  longitude   Float?
   code        String?
   description String?
   date        DateTime
+  isDraft     Boolean  @default(false)
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  templateId String?
+  template   Template? @relation(fields: [templateId], references: [id], onDelete: SetNull)
 
   invitations Invitation[]
 
@@ -125,6 +130,23 @@ model Event {
   updatedAt DateTime @updatedAt
 
   @@map("event")
+}
+
+model Template {
+  id       String  @id @default(cuid())
+  name     String
+  html     String  @db.Text
+  imageUrl String?
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  events Event[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("template")
 }
 
 model Invitation {

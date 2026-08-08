@@ -9,7 +9,6 @@ import {
 export async function SendBulkEmails(params: SendBulkEmailInput) {
   const { invitationIds, customHtmlTemplate } = params;
 
-  // 1. Fetch invites that actually have an email attached
   const validInvites = await prisma.invitation.findMany({
     where: {
       id: { in: invitationIds },
@@ -17,7 +16,9 @@ export async function SendBulkEmails(params: SendBulkEmailInput) {
     },
     include: {
       event: {
-        select: { name: true },
+        include: {
+          template: true,
+        },
       },
     },
   });
@@ -30,28 +31,29 @@ export async function SendBulkEmails(params: SendBulkEmailInput) {
     };
   }
 
-  // 2. Prepare the email promises (Note: This is now an async map)
   const emailPromises = validInvites.map(async (invite) => {
-    // Generate the base64 QR Code string for this specific code
     const qrCodeDataUri = await GenerateQrCodeDataUri(invite.code);
+    const templateHtml = customHtmlTemplate || invite.event.template?.html;
 
     const htmlContent = GenerateInviteEmailHtml(
       invite.inviteeName,
       invite.event.name,
       invite.code,
       qrCodeDataUri,
-      customHtmlTemplate,
+      templateHtml,
+      new Date(invite.event.date).toLocaleString(),
+      invite.event.location || undefined,
+      invite.event.description || undefined,
     );
 
     return emailTransporter.sendMail({
-      from: `"Event Team" <${process.env.SMTP_USER}>`,
+      from: `"Event Team" <${process.env.SMTP_USER || "invitations@tiri.app"}>`,
       to: invite.email!,
-      subject: `Your Invite for ${invite.event.name}`,
+      subject: `Your Invitation for ${invite.event.name}`,
       html: htmlContent,
     });
   });
 
-  // 3. Send them all in parallel
   const results = await Promise.allSettled(await Promise.all(emailPromises));
 
   let sentCount = 0;

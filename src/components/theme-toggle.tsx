@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-
+import { useEffect, useState } from "react";
+import { Moon, Sun, Monitor } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,8 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function ThemeSwitcher() {
-  const { setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -22,39 +21,44 @@ export function ThemeSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-hairline text-ink transition-colors duration-200 hover:border-ink hover:bg-paper-raised focus-visible:outline-none"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-hairline text-ink transition-all duration-200 hover:bg-seal/10 hover:border-seal/30 focus-visible:outline-none"
         aria-label="Toggle theme"
       >
         {!mounted ? (
           <span className="h-4 w-4" />
         ) : resolvedTheme === "dark" ? (
-          <Moon className="h-4 w-4 transition-transform duration-200" />
+          <Moon className="h-4 w-4 transition-transform duration-300" />
         ) : (
-          <Sun className="h-4 w-4 transition-transform duration-200" />
+          <Sun className="h-4 w-4 transition-transform duration-300" />
         )}
       </DropdownMenuTrigger>
-
-      <DropdownMenuContent
-        align="end"
-        className="bg-paper-raised border-hairline text-ink rounded-xl shadow-md p-1 min-w-[120px]"
-      >
+      <DropdownMenuContent align="end" className="glass border-hairline rounded-xl min-w-[150px] p-2">
         <DropdownMenuItem
           onClick={() => setTheme("light")}
-          className="cursor-pointer rounded-lg text-sm text-ink hover:bg-paper focus:bg-paper focus:text-seal transition-colors"
+          className={`rounded-lg cursor-pointer flex items-center gap-2 p-2 ${
+            theme === "light" ? "bg-seal/10 text-seal" : "text-muted hover:text-ink hover:bg-seal/5"
+          }`}
         >
-          Light
+          <Sun className="h-4 w-4" />
+          <span>Light</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme("dark")}
-          className="cursor-pointer rounded-lg text-sm text-ink hover:bg-paper focus:bg-paper focus:text-seal transition-colors"
+          className={`rounded-lg cursor-pointer flex items-center gap-2 p-2 ${
+            theme === "dark" ? "bg-seal/10 text-seal" : "text-muted hover:text-ink hover:bg-seal/5"
+          }`}
         >
-          Dark
+          <Moon className="h-4 w-4" />
+          <span>Dark</span>
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => setTheme("system")}
-          className="cursor-pointer rounded-lg text-sm text-ink hover:bg-paper focus:bg-paper focus:text-seal transition-colors"
+          className={`rounded-lg cursor-pointer flex items-center gap-2 p-2 ${
+            theme === "system" ? "bg-seal/10 text-seal" : "text-muted hover:text-ink hover:bg-seal/5"
+          }`}
         >
-          System
+          <Monitor className="h-4 w-4" />
+          <span>System</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

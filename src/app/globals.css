@@ -1,37 +1,46 @@
-/* src/app/globals.css */
 @import "tailwindcss";
 
-/* v4 has no darkMode config option anymore — this defines what ".dark" means */
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --paper: #f6f1e7;
-  --paper-raised: #fffdf8;
-  --ink: #211b26;
-  --seal: #8c2f39;
-  --seal-hover: #741f28;
-  --emerald: #1f5c4f;
-  --gold: #b8863b;
-  --muted: #8a8175;
-  --hairline: #e4dbc9;
+  --paper: #faf9f7;
+  --paper-raised: #ffffff;
+  --ink: #1a1625;
+  --seal: #6d28d9;
+  --seal-hover: #5b21b6;
+  --emerald: #059669;
+  --gold: #d97706;
+  --muted: #78716c;
+  --hairline: #e7e5e4;
+  --accent-gradient: linear-gradient(135deg, #6d28d9 0%, #a855f7 50%, #6d28d9 100%);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
 }
 
 .dark {
-  --paper: #17141b;
-  --paper-raised: #221e29;
-  --ink: #f6f1e7;
-  --seal: #b23a46;
-  --seal-hover: #c94f5b;
-  --emerald: #2e7a69;
-  --gold: #d3a05a;
-  --muted: #a79e92;
-  --hairline: #322c3a;
+  --paper: #0f0d15;
+  --paper-raised: #1a1625;
+  --ink: #f5f5f4;
+  --seal: #a855f7;
+  --seal-hover: #c084fc;
+  --emerald: #34d399;
+  --gold: #fbbf24;
+  --muted: #a8a29e;
+  --hairline: #2d2640;
+  --accent-gradient: linear-gradient(135deg, #a855f7 0%, #c084fc 50%, #a855f7 100%);
+  --glass-bg: rgba(26, 22, 37, 0.8);
+  --glass-border: rgba(168, 85, 247, 0.1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
 }
 
 @theme inline {
-  --font-display: var(--font-display);
-  --font-body: var(--font-body);
-  --font-mono: var(--font-mono);
   --color-paper: var(--paper);
   --color-paper-raised: var(--paper-raised);
   --color-ink: var(--ink);
@@ -41,40 +50,68 @@
   --color-gold: var(--gold);
   --color-muted: var(--muted);
   --color-hairline: var(--hairline);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+  --font-sans: "Geist", sans-serif;
 }
 
 @layer base {
   body {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    font-family: var(--font-body);
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
+    @apply bg-paper text-ink font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  h1,
-  h2,
-  h3 {
-    font-family: var(--font-display);
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-medium tracking-tight;
   }
 }
 
 @layer components {
   .btn-seal {
-    @apply inline-flex items-center justify-center rounded-full
-           bg-seal text-paper-raised px-6 py-3 font-medium tracking-wide
-           transition-colors duration-200 hover:bg-seal-hover;
+    @apply inline-flex items-center justify-center rounded-xl px-6 py-3 font-medium text-white shadow-[var(--shadow-md)] transition-all duration-200 transform hover:scale-[1.02] hover:shadow-[var(--shadow-lg)] active:scale-[0.98];
+    background-image: var(--accent-gradient);
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center rounded-full
-           border border-hairline text-ink px-6 py-3 font-medium
-           transition-colors duration-200 hover:border-ink;
+    @apply inline-flex items-center justify-center rounded-xl border border-hairline px-6 py-3 font-medium text-ink hover:bg-paper-raised transition-all duration-200;
   }
   .card-surface {
-    @apply bg-paper-raised rounded-2xl border border-hairline shadow-sm;
+    @apply bg-paper-raised rounded-2xl border border-hairline shadow-[var(--shadow-md)] transition-all hover:shadow-[var(--shadow-lg)];
+  }
+  .glass {
+    @apply backdrop-blur-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] shadow-[var(--shadow-sm)];
   }
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-[0.2em] text-muted;
+    @apply font-mono text-xs uppercase tracking-widest text-muted;
   }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(109, 40, 217, 0.3); }
+  50% { box-shadow: 0 0 20px 4px rgba(109, 40, 217, 0.15); }
+}
+.animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+.animate-slide-up { animation: slide-up 0.5s ease-out forwards; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+.stagger > * { opacity: 0; animation: fade-in 0.4s ease-out forwards; }
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 75ms; }
+.stagger > *:nth-child(3) { animation-delay: 150ms; }
+.stagger > *:nth-child(4) { animation-delay: 225ms; }
+.stagger > *:nth-child(5) { animation-delay: 300ms; }
+.stagger > *:nth-child(6) { animation-delay: 375ms; }

@@ -1,49 +1,30 @@
 import React from "react";
 
-interface CheckInLayoutProps {
-  children: React.ReactNode;
-}
-
-export default function CheckInLayout({ children }: CheckInLayoutProps) {
+export default async function CheckInLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-paper text-ink">
-
-      {/* Uses your matching glass-morphism style from NavBar.tsx */}
-      <header className="sticky top-0 z-30 border-b border-hairline bg-paper/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6">
-          <div className="flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-seal text-paper-raised font-display text-sm">
-              T
-            </span>
-            <span className="font-display text-lg text-ink">Tiri</span>
-            <span className="rounded-full bg-emerald/10 px-2.5 py-0.5 text-xs font-mono font-semibold text-emerald border border-emerald/20">
+    <div className="min-h-screen bg-paper font-sans text-ink">
+      <header className="glass sticky top-0 z-10 border-b border-hairline px-6 py-4">
+        <div className="mx-auto flex max-w-5xl items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="font-display text-xl font-bold tracking-tight text-ink">Tiri</div>
+            <div className="rounded-full bg-seal/10 px-2.5 py-1 text-xs font-semibold text-seal uppercase tracking-wider">
               Terminal
-            </span>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 select-none">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald/60 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald"></span>
-              </span>
-              <span className="font-mono text-xs text-muted">Secure Gatekeeper Link</span>
             </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-3 w-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald opacity-75"></span>
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-emerald"></span>
+            </span>
+            <span className="text-sm font-medium text-muted">Live</span>
           </div>
         </div>
       </header>
-
-      {/* Main Container */}
-      <main className="flex-1 flex flex-col justify-center py-6 px-4">
-        {children}
+      <main className="px-4 py-8 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+          {children}
+        </div>
       </main>
-
-      {/* Secured Handshake Footer */}
-      <footer className="border-t border-hairline bg-paper-raised py-4 text-center">
-        <p className="font-mono text-[10px] uppercase tracking-widest text-muted">
-          © {new Date().getFullYear()} Tiri. Handshake Verified.
-        </p>
-      </footer>
     </div>
   );
 }

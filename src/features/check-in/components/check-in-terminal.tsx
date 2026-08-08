@@ -5,6 +5,7 @@ import { useAction } from "next-safe-action/hooks";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { verifyCodeAction } from "../actions/check-in.actions";
 import { updateInviteAction } from "@/features/invite/actions/invite.actions";
+import { Camera, Keyboard, UserCheck, LogOut, XCircle, RotateCcw } from "lucide-react";
 
 interface CheckInTerminalProps {
   eventId: string;
@@ -19,7 +20,6 @@ type ScannedInvite = {
 };
 
 export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
-  // camelCase variables
   const [inputValue, setInputValue] = useState("");
   const [scannedInvite, setScannedInvite] = useState<ScannedInvite | null>(null);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: "error" | "success"; text: string } | null>(null);
@@ -101,15 +101,13 @@ export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
   }
 
   return (
-    <div className="card-surface max-w-md mx-auto p-6">
-      <h2 className="font-display text-2xl font-semibold text-center mb-6">Check-in Terminal</h2>
+    <div className="card-surface p-6 shadow-xl border-t-4 border-t-seal">
+      <h2 className="font-display text-2xl font-semibold text-center mb-6 text-ink">Scan or Enter Code</h2>
 
       {!scannedInvite ? (
-        <div className="flex flex-col gap-4">
-
-          {/* Camera Scanner Viewport */}
+        <div className="flex flex-col gap-6 animate-fade-in">
           {isCameraActive ? (
-            <div className="rounded-2xl overflow-hidden border-2 border-seal bg-paper-raised aspect-square">
+            <div className="rounded-2xl overflow-hidden border-2 border-seal bg-paper-raised aspect-square shadow-inner">
               <Scanner
                 onScan={HandleScan}
                 onError={(error) => setFeedbackMsg({ type: "error", text: "Camera error: " + error.message })}
@@ -119,72 +117,72 @@ export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
             <button
               type="button"
               onClick={() => setIsCameraActive(true)}
-              className="w-full bg-paper-raised text-ink border-2 border-dashed border-hairline font-medium py-6 rounded-2xl hover:border-muted transition-colors flex flex-col items-center gap-2"
+              className="group flex w-full flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-hairline bg-paper py-10 transition-all hover:border-seal hover:bg-paper-raised"
             >
-              <span className="text-2xl">📷</span>
-              Open Camera Scanner
+              <div className="rounded-full bg-paper-raised p-4 text-seal shadow-sm transition-transform group-hover:scale-110">
+                <Camera className="h-8 w-8" />
+              </div>
+              <span className="font-medium text-ink">Tap to use camera scanner</span>
             </button>
           )}
 
           {isCameraActive && (
             <button
               onClick={() => setIsCameraActive(false)}
-              className="font-mono text-xs text-seal font-medium text-center hover:underline uppercase tracking-wide"
+              className="font-mono text-sm font-semibold text-seal uppercase tracking-wide hover:underline"
             >
               Close Camera
             </button>
           )}
 
-          <div className="flex items-center gap-4 my-2">
-            <div className="h-px bg-hairline flex-1"></div>
-            <span className="eyebrow">OR</span>
-            <div className="h-px bg-hairline flex-1"></div>
+          <div className="flex items-center gap-4">
+            <div className="h-px flex-1 bg-hairline"></div>
+            <span className="eyebrow flex items-center gap-1"><Keyboard className="h-4 w-4" /> OR</span>
+            <div className="h-px flex-1 bg-hairline"></div>
           </div>
 
-          {/* Manual Entry Form */}
           <form onSubmit={HandleSubmit} className="flex flex-col gap-4">
-            <label className="eyebrow text-center">
-              Type 8-Character Entry Code
-            </label>
+            <label className="eyebrow text-center">Enter Code Manually</label>
             <input
               ref={inputRef}
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value.toUpperCase())}
-              placeholder="e.g. A1B2C3D4"
+              placeholder="A1B2C3D4"
               maxLength={8}
               disabled={verifyAction.isExecuting}
-              className="w-full text-center text-3xl tracking-[0.25em] font-mono uppercase border-2 border-hairline rounded-2xl p-4 focus:border-seal focus:outline-none bg-paper-raised text-ink"
+              className="w-full rounded-xl border-2 border-hairline bg-paper-raised p-4 text-center font-mono text-3xl font-bold uppercase tracking-[0.25em] text-ink transition-colors focus:border-seal focus:outline-none"
             />
             <button
               type="submit"
               disabled={verifyAction.isExecuting || inputValue.length !== 8}
-              className="btn-seal w-full"
+              className="btn-seal w-full py-4 text-lg"
             >
               {verifyAction.isExecuting ? "Verifying..." : "Verify Code"}
             </button>
           </form>
         </div>
       ) : (
-        <div className="flex flex-col gap-6 animate-in fade-in slide-in-from-bottom-4">
-          <div className="text-center p-6 rounded-2xl bg-paper border border-hairline">
-            <p className="eyebrow mb-1">Invitee</p>
-            <h3 className="font-display text-2xl font-bold text-ink">{scannedInvite.inviteeName}</h3>
+        <div className="flex flex-col gap-6 animate-slide-up">
+          <div className="rounded-2xl border border-hairline bg-paper p-6 text-center shadow-sm">
+            <p className="eyebrow mb-2">Guest</p>
+            <h3 className="font-display text-3xl font-bold text-ink">{scannedInvite.inviteeName}</h3>
 
-            <div className="mt-6 flex items-center justify-center gap-6">
+            <div className="mt-6 flex items-center justify-center gap-8 rounded-xl bg-paper-raised py-4">
               <div className="text-center">
                 <p className="eyebrow">Admit</p>
-                <p className="text-2xl font-bold text-emerald font-mono mt-1">{scannedInvite.quantity}</p>
+                <p className="font-mono text-3xl font-bold text-ink">{scannedInvite.quantity}</p>
               </div>
-              <div className="w-px h-10 bg-hairline"></div>
+              <div className="h-12 w-px bg-hairline"></div>
               <div className="text-center">
                 <p className="eyebrow">Status</p>
-                <p className={`text-xs font-mono font-bold mt-2 px-2.5 py-1 rounded-full ${scannedInvite.status === "ENTERED" ? "bg-emerald/10 text-emerald border border-emerald/20" :
-                    scannedInvite.status === "PENDING" ? "bg-gold/10 text-gold border border-gold/20" :
-                      "bg-seal/10 text-seal border border-seal/20"
-                  }`}>
+                <div className={`mt-2 inline-flex items-center gap-1.5 rounded-full border px-3 py-1 font-mono text-xs font-bold uppercase ${
+                  scannedInvite.status === "ENTERED" ? "border-emerald/20 bg-emerald/10 text-emerald" :
+                  scannedInvite.status === "PENDING" ? "border-gold/20 bg-gold/10 text-gold" :
+                  "border-seal/20 bg-seal/10 text-seal"
+                }`}>
                   {scannedInvite.status}
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -194,8 +192,9 @@ export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
               <button
                 onClick={() => HandleStatusChange("ENTERED")}
                 disabled={updateAction.isExecuting}
-                className="w-full bg-emerald text-paper-raised font-semibold py-4 rounded-full hover:bg-emerald/90 transition-colors shadow-sm font-display text-lg"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald px-6 py-4 font-display text-lg font-semibold text-paper shadow-md transition-transform hover:scale-[1.02] hover:bg-emerald/90 active:scale-100"
               >
+                <UserCheck className="h-5 w-5" />
                 {updateAction.isExecuting ? "Processing..." : "Complete Check-in"}
               </button>
             )}
@@ -204,32 +203,35 @@ export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
               <button
                 onClick={() => HandleStatusChange("EXITED")}
                 disabled={updateAction.isExecuting}
-                className="w-full bg-gold text-paper-raised font-semibold py-4 rounded-full hover:bg-gold/90 transition-colors shadow-sm font-display text-lg"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-6 py-4 font-display text-lg font-semibold text-paper shadow-md transition-transform hover:scale-[1.02] hover:bg-gold/90 active:scale-100"
               >
-                {updateAction.isExecuting ? "Processing..." : "Mark Exit"}
+                <LogOut className="h-5 w-5" />
+                {updateAction.isExecuting ? "Processing..." : "Mark as Exited"}
               </button>
             )}
 
             {scannedInvite.status === "CANCELED" && (
-              <div className="p-4 bg-seal/10 border border-seal/20 text-seal text-center font-semibold rounded-2xl font-display">
-                This invite has been canceled.
+              <div className="flex items-center justify-center gap-2 rounded-xl border border-seal/20 bg-seal/10 p-4 font-display font-semibold text-seal">
+                <XCircle className="h-5 w-5" />
+                Invite is Canceled
               </div>
             )}
 
             <button
               onClick={HandleClear}
-              className="btn-ghost w-full"
+              className="btn-ghost flex w-full items-center justify-center gap-2 py-4"
             >
+              <RotateCcw className="h-4 w-4" />
               Scan Next
             </button>
           </div>
         </div>
       )}
 
-      {/* Verification Feedback Block */}
       {feedbackMsg && (
-        <div className={`mt-6 p-4 rounded-2xl text-center font-medium ${feedbackMsg.type === "error" ? "bg-seal/10 text-seal border border-seal/20" : "bg-emerald/10 text-emerald border border-emerald/20"
-          }`}>
+        <div className={`mt-6 animate-fade-in rounded-xl border p-4 text-center font-medium ${
+          feedbackMsg.type === "error" ? "border-seal/20 bg-seal/10 text-seal" : "border-emerald/20 bg-emerald/10 text-emerald"
+        }`}>
           {feedbackMsg.text}
         </div>
       )}

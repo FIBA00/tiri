@@ -4,8 +4,8 @@ import { z } from "zod";
 export const createInviteSchema = z.object({
   inviteeName: z.string().min(3),
   quantity: z.coerce.number().int().positive().default(1),
-  eventId: z.string().cuid(),
-  email: z.email().optional(),
+  eventId: z.string(),
+  email: z.string().email().optional(),
   phoneNumber: z
     .string()
     .regex(/^\+2519\d{8}$/)
@@ -21,11 +21,11 @@ export const getInviteSchema = z.object({
   sort: z.enum(["createdAt", "inviteeName", "quantity"]).default("createdAt"),
   order: z.enum(["asc", "desc"]).default("desc"),
   search: z.string().min(2).optional(),
-  eventId: z.cuid(),
+  eventId: z.string(),
 });
 
 export const updateInviteSchema = z.object({
-  invitationId: z.string().cuid(),
+  invitationId: z.string(),
   inviteeName: z.string().min(3).optional(),
   quantity: z.coerce.number().int().positive().optional(),
   email: z.string().email().optional().or(z.literal("")),
@@ -41,7 +41,7 @@ export const updateInviteSchema = z.object({
 
 export const sendBulkEmailSchema = z.object({
   invitationIds: z
-    .array(z.string().cuid())
+    .array(z.string())
     .min(1, "Please select at least one invite"),
   customHtmlTemplate: z.string().optional(),
 });
@@ -61,9 +61,12 @@ export const finalizeAndSendSchema = z.object({
     locationDescription: z.string().optional(),
     address: z.string().optional(),
     venueNotes: z.string().optional(),
+    latitude: z.number().optional().nullable(),
+    longitude: z.number().optional().nullable(),
+    templateId: z.string().optional().nullable(),
   }),
   guests: z.array(wizardGuestInput).min(1),
-  cardMode: z.enum(["unique", "shared"]),
+  isDraft: z.boolean().optional().default(false),
 });
 
 export type SendBulkEmailInput = z.infer<typeof sendBulkEmailSchema>;

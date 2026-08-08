@@ -1,9 +1,9 @@
-import CreateEventForm from "@/components/forms/CreateEventForm.tsx";
+import { CreateEventForm } from "@/features/event/components/create-event-form";
 
-export default function NewEventPage(){
-    return (
-        <main className="min-h-screen  px-6 py-16">
-            <CreateEventForm/>
-        </main>
-    )
+export default function NewEventPage() {
+  return (
+    <main className="min-h-[80vh] flex items-start justify-center px-4 py-8 md:py-16">
+      <CreateEventForm />
+    </main>
+  );
 }

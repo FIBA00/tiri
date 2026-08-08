@@ -3,8 +3,8 @@ import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { CheckInTerminal } from "@/features/check-in/components/check-in-terminal";
+import { ScanLine } from "lucide-react";
 
-// Local helper to merge your custom role property with the default user model
 type SessionUserWithRole = {
   id: string;
   createdAt: Date;
@@ -22,9 +22,8 @@ export default async function CheckInPage({
   params: Promise<{ eventId: string }>;
 }) {
   const { eventId } = await params;
-  const reqHeaders = await headers(); // camelCase variable
+  const reqHeaders = await headers();
 
-  // 1. Authenticate the User
   const rawSession = await auth.api.getSession({
     headers: reqHeaders,
   });
@@ -33,10 +32,8 @@ export default async function CheckInPage({
     redirect("/sign-in");
   }
 
-  // Safely cast the user object to the extended helper type
   const sessionUser = rawSession.user as SessionUserWithRole;
 
-  // 2. Validate Event Existence and Ownership
   const eventDetails = await prisma.event.findUnique({
     where: {
       id: eventId,
@@ -52,8 +49,6 @@ export default async function CheckInPage({
     notFound();
   }
 
-  // 3. Authorize the User
-  // We use our clean, casted sessionUser object here
   const isOwner = eventDetails.userId === sessionUser.id;
   const isAdmin = sessionUser.role?.includes("admin");
 
@@ -61,25 +56,23 @@ export default async function CheckInPage({
     redirect("/unauthorized");
   }
 
-  // 4. Render the Terminal
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 flex flex-col items-center">
-
-      {/* Event Header for the Door Staff */}
-      <div className="max-w-md w-full mb-8 text-center bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <h1 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-          Door Check-in Active for
-        </h1>
-        <p className="text-2xl font-black text-gray-900 mt-1">
+    <div className="flex flex-col items-center animate-fade-in">
+      <div className="glass mb-8 w-full max-w-md rounded-2xl p-6 text-center shadow-lg border border-hairline">
+        <div className="mb-4 flex justify-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-seal/10 text-seal">
+            <ScanLine className="h-6 w-6" />
+          </div>
+        </div>
+        <h1 className="eyebrow mb-2">Door Check-in Active for</h1>
+        <p className="font-display text-2xl font-black text-ink">
           {eventDetails.name}
         </p>
       </div>
 
-      {/* The Secure Terminal Component */}
-      <div className="w-full">
+      <div className="w-full max-w-md">
         <CheckInTerminal eventId={eventDetails.id} />
       </div>
-
     </div>
   );
 }

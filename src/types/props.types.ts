@@ -12,15 +12,20 @@ export interface FieldProps {
   error?: string;
   children: React.ReactNode;
 }
+
 export interface EventFormState {
   name: string;
   description: string;
   date: string;
+  time?: string;
   venueName: string;
   locationDescription: string;
   address: string;
   venueNotes: string;
+  latitude?: number | null;
+  longitude?: number | null;
 }
+
 export interface CardTemplateProps {
   eventName: string;
   date: string;
