@@ -170,17 +170,18 @@ export default function GuestsPage() {
 
         {/* Floating Action Bar */}
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-paper-raised border border-hairline p-3 md:p-4 rounded-2xl shadow-2xl flex items-center justify-between z-50">
-          <Button type="button" variant="ghost" onClick={() => router.push("/events/new")} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-6">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+          <Button type="button" variant="ghost" onClick={() => router.push("/events/new")} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4 sm:px-6">
+            <ArrowLeft className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Back</span>
           </Button>
-          <div className="flex items-center gap-3">
-            <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4">
-              <Bookmark className="h-4 w-4 mr-2" />
-              Save Draft
+          <div className="flex items-center gap-1 sm:gap-3">
+            <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-3 sm:px-4">
+              <Bookmark className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Save Draft</span>
             </Button>
-            <Button type="button" onClick={HandleContinue} disabled={guests.length === 0} className="btn-seal rounded-xl px-8 shadow-md">
-              Continue to Templates
+            <Button type="button" onClick={HandleContinue} disabled={guests.length === 0} className="btn-seal rounded-xl px-4 sm:px-8 shadow-md">
+              <span className="hidden sm:inline">Continue to Templates</span>
+              <span className="sm:hidden">Next</span>
               <ArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </div>

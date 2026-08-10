@@ -208,26 +208,41 @@ export function TemplateSelector() {
           <div className="flex flex-col gap-3">
             <h3 className="font-display text-sm font-semibold text-ink mt-2">Saved Templates</h3>
             
-
-
-            {templatesList.map((tpl) => (
-              <button
-                key={tpl.id}
-                type="button"
-                onClick={() => HandleSelectSaved(tpl)}
-                className={`w-full p-4 rounded-2xl border text-left transition-all ${
-                  selectedId === tpl.id
-                    ? "border-seal bg-seal/10 ring-2 ring-seal/20"
-                    : "border-hairline bg-paper hover:border-seal/50"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-ink">{tpl.name}</span>
-                  {selectedId === tpl.id && <CheckCircle2 className="h-5 w-5 text-seal" />}
-                </div>
-                <p className="text-xs text-muted mt-1">Saved HTML Email Template</p>
-              </button>
-            ))}
+            {listAction.status === "executing" ? (
+              <div className="flex flex-col gap-3">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="w-full p-4 rounded-2xl border border-hairline bg-paper animate-pulse flex items-center justify-between">
+                    <div className="flex flex-col gap-2">
+                      <div className="h-5 bg-muted/20 rounded w-40" />
+                      <div className="h-3 bg-muted/20 rounded w-32" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : templatesList.length > 0 ? (
+              templatesList.map((tpl) => (
+                <button
+                  key={tpl.id}
+                  type="button"
+                  onClick={() => HandleSelectSaved(tpl)}
+                  className={`w-full p-4 rounded-2xl border text-left transition-all ${
+                    selectedId === tpl.id
+                      ? "border-seal bg-seal/10 ring-2 ring-seal/20"
+                      : "border-hairline bg-paper hover:border-seal/50"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-ink">{tpl.name}</span>
+                    {selectedId === tpl.id && <CheckCircle2 className="h-5 w-5 text-seal" />}
+                  </div>
+                  <p className="text-xs text-muted mt-1">Saved HTML Email Template</p>
+                </button>
+              ))
+            ) : (
+              <div className="p-4 rounded-2xl border border-dashed border-hairline text-center text-muted text-xs">
+                No templates found. Generate one above.
+              </div>
+            )}
           </div>
         </div>
 
@@ -247,17 +262,18 @@ export function TemplateSelector() {
 
       {/* Floating Action Bar */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-paper-raised border border-hairline p-3 md:p-4 rounded-2xl shadow-2xl flex items-center justify-between z-50">
-        <Button type="button" variant="ghost" onClick={() => router.push("/events/new/guests")} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-6">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back
+        <Button type="button" variant="ghost" onClick={() => router.push("/events/new/guests")} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4 sm:px-6">
+          <ArrowLeft className="h-4 w-4 sm:mr-2" />
+          <span className="hidden sm:inline">Back</span>
         </Button>
-        <div className="flex items-center gap-3">
-          <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4">
-            <Bookmark className="h-4 w-4 mr-2" />
-            Save Draft
+        <div className="flex items-center gap-1 sm:gap-3">
+          <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-3 sm:px-4">
+            <Bookmark className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Save Draft</span>
           </Button>
-          <Button type="button" onClick={HandleContinue} className="btn-seal rounded-xl px-8 shadow-md">
-            Continue to Preview
+          <Button type="button" onClick={HandleContinue} className="btn-seal rounded-xl px-4 sm:px-8 shadow-md">
+            <span className="hidden sm:inline">Continue to Preview</span>
+            <span className="sm:hidden">Next</span>
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>

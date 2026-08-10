@@ -125,29 +125,31 @@ export default function PreviewPage() {
             variant="ghost"
             onClick={() => router.push("/events/new/templates")}
             disabled={isSubmitting}
-            className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-6"
+            className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4 sm:px-6"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            <ArrowLeft className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Back</span>
           </Button>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1 sm:gap-3">
             <Button
               type="button"
               variant="outline"
               onClick={() => HandleFinalize(true)}
               disabled={isSubmitting}
-              className="text-muted hover:text-ink rounded-xl border-hairline px-4"
+              className="text-muted hover:text-ink rounded-xl border-hairline px-3 sm:px-4"
             >
-              Save as Draft
+              <span className="hidden sm:inline">Save as Draft</span>
+              <span className="sm:hidden">Draft</span>
             </Button>
             <Button
               type="button"
               onClick={() => HandleFinalize(false)}
               disabled={isSubmitting}
-              className="btn-seal rounded-xl px-8 shadow-md"
+              className="btn-seal rounded-xl px-4 sm:px-8 shadow-md"
             >
-              <Send className="h-4 w-4 mr-2" />
-              {isSubmitting ? "Sending..." : "Send Invitations"}
+              <Send className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">{isSubmitting ? "Sending..." : "Send Invitations"}</span>
+              <span className="sm:hidden">{isSubmitting ? "..." : "Send"}</span>
             </Button>
           </div>
         </div>

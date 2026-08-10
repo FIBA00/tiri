@@ -394,11 +394,11 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-end pt-4 sticky bottom-6 z-10">
-          <div className="bg-paper-raised p-4 rounded-3xl shadow-2xl border border-hairline flex items-center gap-4">
-            <p className="text-sm font-medium text-muted mr-4">You have unsaved changes</p>
-            <Button type="submit" className="btn-seal px-8 h-12 text-base rounded-2xl" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save All Settings"}
+        <div className="flex items-center justify-center sm:justify-end pt-4 sticky bottom-6 z-10 px-2 sm:px-0">
+          <div className="bg-paper-raised p-3 sm:p-4 rounded-3xl shadow-2xl border border-hairline flex items-center justify-between gap-3 sm:gap-4 w-full sm:w-auto">
+            <p className="text-xs sm:text-sm font-medium text-muted ml-2">Unsaved changes</p>
+            <Button type="submit" className="btn-seal px-4 sm:px-8 h-10 sm:h-12 text-sm sm:text-base rounded-2xl whitespace-nowrap" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : "Save Settings"}
             </Button>
           </div>
         </div>

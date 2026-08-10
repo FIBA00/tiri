@@ -299,12 +299,13 @@ export function CreateEventForm() {
 
         {/* Floating Action Bar */}
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-paper-raised border border-hairline p-3 md:p-4 rounded-2xl shadow-2xl flex items-center justify-between z-50">
-          <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-6">
-            <Bookmark className="h-4 w-4 mr-2" />
-            Save Draft
+          <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4 sm:px-6">
+            <Bookmark className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Save Draft</span>
           </Button>
-          <Button type="submit" className="btn-seal rounded-xl px-8 shadow-md">
-            Continue to Guest List
+          <Button type="submit" className="btn-seal rounded-xl px-4 sm:px-8 shadow-md">
+            <span className="hidden sm:inline">Continue to Guest List</span>
+            <span className="sm:hidden">Next</span>
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>

@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { signUpSchema, type SignUpInput } from "@/lib/schemas/auth.schema";
 import { authClient } from "@/lib/auth-client";
 
+import { useRouter } from "next/navigation";
+
 function GoogleIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none">
@@ -21,6 +23,7 @@ function GoogleIcon({ className }: { className?: string }) {
 }
 
 export function SignUpForm() {
+  const router = useRouter();
   const [formErrorMsg, setFormErrorMsg] = useState("");
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const {
@@ -36,12 +39,12 @@ export function SignUpForm() {
       email,
       password,
       name,
-      callbackURL: "/dashboard",
     });
     if (error) {
       setFormErrorMsg("Sign up failed: " + (error.message || "Failed to create account"));
       return;
     }
+    router.push("/dashboard");
   }
 
   async function HandleGoogleSignIn() {

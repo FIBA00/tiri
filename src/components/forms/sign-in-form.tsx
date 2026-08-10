@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { signInSchema, type SignInInput } from "@/lib/schemas/auth.schema";
 import { authClient } from "@/lib/auth-client";
 
+import { useRouter } from "next/navigation";
+
 function GoogleIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none">
@@ -21,6 +23,7 @@ function GoogleIcon({ className }: { className?: string }) {
 }
 
 export function SignInForm() {
+  const router = useRouter();
   const [formErrorMsg, setFormErrorMsg] = useState("");
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const {
@@ -34,12 +37,12 @@ export function SignInForm() {
     const { error } = await authClient.signIn.email({
       email: values.email,
       password: values.password,
-      callbackURL: "/dashboard",
     });
     if (error) {
       setFormErrorMsg("Sign in failed: " + (error.message || "Invalid credentials"));
       return;
     }
+    router.push("/dashboard");
   }
 
   async function HandleGoogleSignIn() {
