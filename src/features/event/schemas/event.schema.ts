@@ -9,6 +9,7 @@ export const createEventSchema = z.object({
   date: z.coerce.date({ error: "Event date is required" }),
   isDraft: z.boolean().optional().default(false),
   templateId: z.string().optional().nullable(),
+  checkInPin: z.string().length(6, "PIN must be exactly 6 characters").optional().nullable(),
 });
 
 export type CreateEventInput = z.infer<typeof createEventSchema>;

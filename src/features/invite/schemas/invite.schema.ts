@@ -64,6 +64,7 @@ export const finalizeAndSendSchema = z.object({
     latitude: z.number().optional().nullable(),
     longitude: z.number().optional().nullable(),
     templateId: z.string().optional().nullable(),
+    checkInPin: z.string().length(6).optional().nullable(),
   }),
   guests: z.array(wizardGuestInput).min(1),
   isDraft: z.boolean().optional().default(false),

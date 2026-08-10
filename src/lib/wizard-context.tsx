@@ -13,6 +13,7 @@ export interface WizardEvent {
   venueNotes: string;
   latitude?: number | null;
   longitude?: number | null;
+  checkInPin?: string;
 }
 
 export interface WizardGuest {

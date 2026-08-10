@@ -20,6 +20,7 @@
     "@upstash/qstash": "^2.11.3",
     "@yudiel/react-qr-scanner": "^2.6.0",
     "axios": "^1.18.1",
+    "bcryptjs": "^3.0.3",
     "better-auth": "^1.6.23",
     "button": "link:@base-ui/react/button",
     "class-variance-authority": "^0.7.1",
@@ -46,6 +47,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
+    "@types/bcryptjs": "^3.0.0",
     "@types/leaflet": "^1.9.22",
     "@types/node": "^20.19.43",
     "@types/nodemailer": "^8.0.1",

@@ -44,7 +44,7 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
     address: event.location?.split("—").slice(1).join("—").trim() || "",
     latitude: event.latitude ?? 9.0107,
     longitude: event.longitude ?? 38.7612,
-    checkInPin: event.checkInPin || "",
+    checkInPin: "", // Leave empty so we don't expose the hash
     templateId: event.templateId || "",
   });
 
@@ -134,7 +134,7 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
 
     const locationParts = [formState.venueName, formState.address].filter(Boolean);
 
-    await updateEventAction({
+    const payload: any = {
       eventId: event.id,
       name: formState.name,
       date: new Date(combinedDate),
@@ -142,9 +142,14 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
       location: locationParts.length ? locationParts.join(" — ") : null,
       latitude: formState.latitude,
       longitude: formState.longitude,
-      checkInPin: formState.checkInPin || null,
       templateId: formState.templateId || null,
-    });
+    };
+
+    if (formState.checkInPin) {
+      payload.checkInPin = formState.checkInPin;
+    }
+
+    await updateEventAction(payload);
 
     setIsSubmitting(false);
     router.refresh();
@@ -383,7 +388,7 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
                   onChange={(e) => HandleFieldChange("checkInPin", e.target.value)}
                   className="font-mono tracking-widest text-lg h-12"
                 />
-                <p className="text-xs text-muted">A 6-digit PIN that door staff use to unlock the terminal.</p>
+                <p className="text-xs text-muted">A 6-digit PIN that door staff use to unlock the terminal. {event.checkInPin ? "A PIN is currently set. Leave empty to keep it unchanged." : ""}</p>
               </div>
             </div>
           </div>

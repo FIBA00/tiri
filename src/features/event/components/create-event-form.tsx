@@ -27,6 +27,7 @@ export function CreateEventForm() {
     venueNotes: storedEvent?.venueNotes || "",
     latitude: storedEvent?.latitude ?? 9.0107,
     longitude: storedEvent?.longitude ?? 38.7612,
+    checkInPin: storedEvent?.checkInPin || "",
   });
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -262,6 +263,37 @@ export function CreateEventForm() {
                 />
               </div>
             ) : null}
+          </div>
+        </div>
+
+        {/* Security Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 pb-12">
+          <div>
+            <h2 className="font-display text-2xl font-bold text-ink">Security</h2>
+            <p className="text-sm text-muted mt-2">
+              Add a PIN to secure the check-in scanner at the door.
+            </p>
+          </div>
+          
+          <div className="card-surface p-6 md:p-8 flex flex-col gap-4 rounded-2xl border border-hairline bg-paper">
+            <div>
+              <h3 className="font-semibold text-ink">Door Check-in</h3>
+              <p className="text-sm text-muted mt-1">Configure access controls for the door check-in scanner.</p>
+            </div>
+            
+            <div className="flex flex-col gap-2 max-w-xs mt-2">
+              <label htmlFor="checkInPin" className="text-sm font-medium text-ink">Scanner PIN Code (Optional)</label>
+              <Input
+                id="checkInPin"
+                type="password"
+                placeholder="e.g. 123456"
+                maxLength={6}
+                value={formState.checkInPin}
+                onChange={(e) => HandleFieldChange("checkInPin", e.target.value)}
+                className="font-mono tracking-widest text-lg h-12"
+              />
+              <p className="text-xs text-muted">A 6-digit PIN that door staff use to unlock the terminal.</p>
+            </div>
           </div>
         </div>
 

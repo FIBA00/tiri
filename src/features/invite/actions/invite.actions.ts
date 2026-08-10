@@ -89,6 +89,7 @@ export const finalizeAndSendAction = authActionClient
         latitude: event.latitude,
         longitude: event.longitude,
         templateId: event.templateId,
+        checkInPin: event.checkInPin,
         isDraft: isDraft || false,
       },
       userId,

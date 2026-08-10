@@ -24,6 +24,7 @@ export interface EventFormState {
   venueNotes: string;
   latitude?: number | null;
   longitude?: number | null;
+  checkInPin?: string;
 }
 
 export interface CardTemplateProps {

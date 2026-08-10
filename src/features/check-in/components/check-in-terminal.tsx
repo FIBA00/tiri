@@ -3,8 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useAction } from "next-safe-action/hooks";
 import { Scanner } from "@yudiel/react-qr-scanner";
-import { verifyCodeAction } from "../actions/check-in.actions";
-import { updateInviteAction } from "@/features/invite/actions/invite.actions";
+import { verifyCodeAction, updateCheckInStatusAction } from "../actions/check-in.actions";
 import { Camera, Keyboard, UserCheck, LogOut, XCircle, RotateCcw } from "lucide-react";
 
 interface CheckInTerminalProps {
@@ -29,7 +28,7 @@ export function CheckInTerminal({ eventId, pin }: CheckInTerminalProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const verifyAction = useAction(verifyCodeAction);
-  const updateAction = useAction(updateInviteAction);
+  const updateAction = useAction(updateCheckInStatusAction);
 
   useEffect(() => {
     if (!scannedInvite && !isCameraActive) {
@@ -78,6 +77,8 @@ export function CheckInTerminal({ eventId, pin }: CheckInTerminalProps) {
 
     const result = await updateAction.executeAsync({
       invitationId: scannedInvite.id,
+      eventId,
+      pin,
       status: newStatus,
     });
 
