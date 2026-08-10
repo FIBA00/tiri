@@ -61,11 +61,14 @@ export function SignUpForm() {
   return (
     <form
       onSubmit={handleSubmit(OnSubmit)}
-      className="card-surface flex flex-col gap-4 p-8 max-w-md w-full"
+      className="bg-paper-raised border border-hairline rounded-3xl p-8 sm:p-10 shadow-xl w-full flex flex-col gap-8 animate-slide-up"
     >
-      <div>
-        <p className="eyebrow mb-1">Get Started</p>
-        <h2 className="font-display text-2xl font-bold text-ink">Create Account</h2>
+      <div className="flex flex-col items-center text-center gap-2">
+        <div className="h-16 w-16 rounded-full bg-seal/10 flex items-center justify-center mb-2">
+          <span className="font-display text-3xl font-black text-seal tracking-tighter">T</span>
+        </div>
+        <h2 className="font-display text-3xl font-bold text-ink tracking-tight">Create an account</h2>
+        <p className="text-sm text-muted">Join Tiri and start managing events</p>
       </div>
 
       <Button
@@ -73,62 +76,93 @@ export function SignUpForm() {
         variant="outline"
         onClick={HandleGoogleSignIn}
         disabled={isGoogleLoading || isSubmitting}
-        className="w-full py-3 rounded-xl border-hairline bg-paper hover:bg-paper-raised flex items-center justify-center gap-3 font-medium text-ink transition-all hover:shadow-sm"
+        className="w-full h-14 rounded-2xl border-2 border-hairline bg-paper hover:bg-paper-raised hover:border-seal/30 flex items-center justify-center gap-3 font-semibold text-ink transition-all hover:shadow-md active:scale-[0.98]"
       >
-        <GoogleIcon className="h-5 w-5" />
-        {isGoogleLoading ? "Redirecting to Google..." : "Continue with Google"}
+        <GoogleIcon className="h-6 w-6" />
+        {isGoogleLoading ? "Connecting to Google..." : "Continue with Google"}
       </Button>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4 px-2">
         <div className="h-px flex-1 bg-hairline" />
-        <span className="text-xs font-medium text-muted">or sign up with email</span>
+        <span className="eyebrow text-muted">or register with email</span>
         <div className="h-px flex-1 bg-hairline" />
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="name" className="text-xs font-medium text-ink">
-          Full Name
-        </label>
-        <Input id="name" {...register("name")} placeholder="Abebe Bikila" className="rounded-xl border-hairline bg-paper" />
-        {errors.name?.message ? <p className="font-mono text-xs text-seal">{errors.name.message}</p> : null}
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="name" className="text-sm font-semibold text-ink pl-1">
+            Full Name
+          </label>
+          <Input 
+            id="name" 
+            {...register("name")} 
+            placeholder="Abebe Bikila" 
+            className="h-14 rounded-2xl border-2 border-hairline bg-paper px-4 focus:border-seal transition-colors" 
+          />
+          {errors.name?.message ? <p className="font-medium text-xs text-red-500 pl-1">{errors.name.message}</p> : null}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="email" className="text-sm font-semibold text-ink pl-1">
+            Email Address
+          </label>
+          <Input 
+            id="email" 
+            type="email" 
+            {...register("email")} 
+            placeholder="name@company.com" 
+            className="h-14 rounded-2xl border-2 border-hairline bg-paper px-4 focus:border-seal transition-colors" 
+          />
+          {errors.email?.message ? <p className="font-medium text-xs text-red-500 pl-1">{errors.email.message}</p> : null}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="password" className="text-sm font-semibold text-ink pl-1">
+            Password
+          </label>
+          <Input 
+            id="password" 
+            type="password" 
+            {...register("password")} 
+            placeholder="••••••••"
+            className="h-14 rounded-2xl border-2 border-hairline bg-paper px-4 focus:border-seal transition-colors tracking-widest" 
+          />
+          {errors.password?.message ? <p className="font-medium text-xs text-red-500 pl-1">{errors.password.message}</p> : null}
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label htmlFor="confirmPassword" className="text-sm font-semibold text-ink pl-1">
+            Confirm Password
+          </label>
+          <Input 
+            id="confirmPassword" 
+            type="password" 
+            {...register("confirmPassword")} 
+            placeholder="••••••••"
+            className="h-14 rounded-2xl border-2 border-hairline bg-paper px-4 focus:border-seal transition-colors tracking-widest" 
+          />
+          {errors.confirmPassword?.message ? <p className="font-medium text-xs text-red-500 pl-1">{errors.confirmPassword.message}</p> : null}
+        </div>
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="email" className="text-xs font-medium text-ink">
-          Email Address
-        </label>
-        <Input id="email" type="email" {...register("email")} placeholder="you@example.com" className="rounded-xl border-hairline bg-paper" />
-        {errors.email?.message ? <p className="font-mono text-xs text-seal">{errors.email.message}</p> : null}
+      {formErrorMsg ? (
+        <div className="rounded-xl border-2 border-red-500/20 bg-red-500/10 p-3 text-center text-sm font-medium text-red-600 animate-shake">
+          {formErrorMsg}
+        </div>
+      ) : null}
+
+      <div className="flex flex-col gap-6 mt-2">
+        <Button type="submit" className="btn-seal w-full h-14 text-lg rounded-2xl font-bold shadow-md hover:shadow-lg transition-all" disabled={isSubmitting}>
+          {isSubmitting ? "Creating account..." : "Create Account"}
+        </Button>
+
+        <p className="text-sm text-muted text-center">
+          Already have an account?{" "}
+          <Link href="/auth/sign-in" className="text-seal font-bold hover:underline transition-all">
+            Sign in
+          </Link>
+        </p>
       </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="password" className="text-xs font-medium text-ink">
-          Password
-        </label>
-        <Input id="password" type="password" {...register("password")} className="rounded-xl border-hairline bg-paper" />
-        {errors.password?.message ? <p className="font-mono text-xs text-seal">{errors.password.message}</p> : null}
-      </div>
-
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="confirmPassword" className="text-xs font-medium text-ink">
-          Confirm Password
-        </label>
-        <Input id="confirmPassword" type="password" {...register("confirmPassword")} className="rounded-xl border-hairline bg-paper" />
-        {errors.confirmPassword?.message ? <p className="font-mono text-xs text-seal">{errors.confirmPassword.message}</p> : null}
-      </div>
-
-      {formErrorMsg ? <p className="font-mono text-xs text-seal">{formErrorMsg}</p> : null}
-
-      <Button type="submit" className="btn-seal w-full py-3" disabled={isSubmitting}>
-        {isSubmitting ? "Creating account..." : "Create Account"}
-      </Button>
-
-      <p className="font-mono text-xs text-muted text-center mt-2">
-        Already have an account?{" "}
-        <Link href="/auth/sign-in" className="text-seal font-semibold hover:underline">
-          Sign in
-        </Link>
-      </p>
     </form>
   );
 }

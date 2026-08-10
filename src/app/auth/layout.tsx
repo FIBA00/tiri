@@ -6,16 +6,10 @@ type AuthLayoutProps = {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12">
-      <div className="absolute top-1/4 -left-20 w-72 h-72 bg-seal/15 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 -right-20 w-72 h-72 bg-emerald/10 rounded-full blur-3xl" />
-      <div className="relative w-full max-w-md">
-        <div className="mb-8 flex flex-col items-center text-center">
-          <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-seal to-seal-hover text-white font-display text-lg shadow-lg">
-            T
-          </span>
-          <h1 className="mt-4 font-display text-2xl text-ink">Tiri</h1>
-        </div>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12 bg-paper">
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-seal/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      <div className="relative w-full max-w-md z-10">
         {children}
       </div>
     </div>
