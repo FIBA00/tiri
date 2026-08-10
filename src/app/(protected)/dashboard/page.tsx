@@ -18,24 +18,24 @@ export default async function DashboardPage() {
   );
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 md:py-12 flex flex-col gap-8">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-hairline pb-6">
+    <div className="mx-auto max-w-6xl px-4 py-8 md:py-12 flex flex-col gap-12">
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-seal/10 text-seal text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-seal/10 text-seal text-xs font-semibold mb-4 tracking-wide uppercase">
             <Sparkles className="h-3.5 w-3.5" />
             Organizer Dashboard
           </div>
-          <h1 className="font-display text-3xl font-bold text-ink">
-            Welcome back, {session.user.name || "Organizer"}
+          <h1 className="font-display text-4xl font-bold text-ink">
+            Welcome back, {session.user.name?.split(' ')[0] || "Organizer"}
           </h1>
-          <p className="mt-1 text-sm text-muted">
-            Manage your events, check-in invites, and custom email templates.
+          <p className="mt-2 text-base text-muted max-w-xl">
+            Here's an overview of your upcoming events. You can manage guest lists, configure check-in settings, and design beautiful email templates.
           </p>
         </div>
 
         <Link href="/events/new">
-          <Button className="btn-seal inline-flex items-center gap-2 px-6">
-            <CalendarPlus className="h-4 w-4" />
+          <Button className="btn-seal inline-flex items-center gap-2 px-8 py-6 text-base h-auto">
+            <CalendarPlus className="h-5 w-5" />
             Create New Event
           </Button>
         </Link>
@@ -72,6 +72,9 @@ export default async function DashboardPage() {
                 month: "short",
                 day: "numeric",
               })}
+              rawDate={new Date(eventItem.date).toISOString()}
+              description={eventItem.description}
+              location={eventItem.location}
               inviteCount={eventItem._count.invitations}
               isDraft={eventItem.isDraft}
             />

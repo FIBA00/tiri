@@ -48,6 +48,7 @@ Requirements:
    - {{date}} - Event date and time
    - {{location}} - Event location or venue
    - {{code}} - 8-character entry passcode
+   - {{qrCode}} - QR Code image for the entry passcode
    - {{description}} - Event notes or description
 3. Return ONLY valid HTML code wrapped in <html>...</html>. Do not include markdown code block syntax or extra commentary.`;
 

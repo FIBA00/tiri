@@ -44,13 +44,26 @@ export async function SendBulkEmails(params: SendBulkEmailInput) {
       new Date(invite.event.date).toLocaleString(),
       invite.event.location || undefined,
       invite.event.description || undefined,
+      invite.event.latitude,
+      invite.event.longitude
     );
+
+    const attachments = qrCodeDataUri
+      ? [
+          {
+            filename: `qrcode-${invite.code}.png`,
+            path: qrCodeDataUri,
+            cid: `qrcode-${invite.code}`,
+          },
+        ]
+      : [];
 
     return emailTransporter.sendMail({
       from: `"Event Team" <${process.env.SMTP_USER || "invitations@tiri.app"}>`,
       to: invite.email!,
       subject: `Your Invitation for ${invite.event.name}`,
       html: htmlContent,
+      attachments,
     });
   });
 

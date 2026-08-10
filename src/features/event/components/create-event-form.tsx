@@ -8,6 +8,8 @@ import { WizardSteps } from "./wizard-steps";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { DynamicLocationPicker } from "@/components/ui/dynamic-location-picker";
+import { TimePicker } from "@/components/ui/time-picker";
 import { MapPin, Navigation, Calendar, Clock, ArrowRight, Bookmark } from "lucide-react";
 
 export function CreateEventForm() {
@@ -112,12 +114,11 @@ export function CreateEventForm() {
             value={formState.name}
             onChange={(e) => HandleFieldChange("name", e.target.value)}
             placeholder="e.g. Bethlehem & Yonas's Wedding Reception"
-            className="rounded-xl text-lg px-4 py-3 border-hairline bg-paper"
           />
           {formErrors.name ? <p className="font-mono text-xs text-seal">{formErrors.name}</p> : null}
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-2">
             <label htmlFor="date" className="text-sm font-medium text-ink flex items-center gap-1.5">
               <Calendar className="h-4 w-4 text-seal" />
@@ -128,7 +129,6 @@ export function CreateEventForm() {
               type="date"
               value={formState.date}
               onChange={(e) => HandleFieldChange("date", e.target.value)}
-              className="rounded-xl px-4 py-3 border-hairline bg-paper"
             />
             {formErrors.date ? <p className="font-mono text-xs text-seal">{formErrors.date}</p> : null}
           </div>
@@ -138,26 +138,11 @@ export function CreateEventForm() {
               <Clock className="h-4 w-4 text-seal" />
               Start Time
             </label>
-            <div className="flex gap-2">
-              <Input
-                id="time"
-                type="time"
-                value={formState.time}
-                onChange={(e) => HandleFieldChange("time", e.target.value)}
-                className="rounded-xl px-4 py-3 border-hairline bg-paper flex-1"
-              />
-              <select
-                value={formState.time}
-                onChange={(e) => HandleFieldChange("time", e.target.value)}
-                className="rounded-xl border border-hairline bg-paper px-3 text-xs text-muted focus:outline-none"
-              >
-                <option value="09:00">09:00 AM</option>
-                <option value="12:00">12:00 PM</option>
-                <option value="15:00">03:00 PM</option>
-                <option value="18:00">06:00 PM</option>
-                <option value="20:00">08:00 PM</option>
-              </select>
-            </div>
+            <TimePicker
+              value={formState.time}
+              onChange={(newTime) => HandleFieldChange("time", newTime)}
+              className="w-full"
+            />
           </div>
         </div>
 
@@ -171,7 +156,6 @@ export function CreateEventForm() {
             value={formState.description}
             onChange={(e) => HandleFieldChange("description", e.target.value)}
             placeholder="Share details about dress code, itinerary, or welcome messages..."
-            className="rounded-xl border-hairline bg-paper"
           />
         </div>
       </div>
@@ -197,9 +181,9 @@ export function CreateEventForm() {
           </Button>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="venueName" className="text-xs font-medium text-ink">
+            <label htmlFor="venueName" className="text-sm font-medium text-ink">
               Venue Name
             </label>
             <Input
@@ -207,12 +191,11 @@ export function CreateEventForm() {
               value={formState.venueName}
               onChange={(e) => HandleFieldChange("venueName", e.target.value)}
               placeholder="e.g. Skylight Hotel Rooftop"
-              className="rounded-xl border-hairline bg-paper"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="address" className="text-xs font-medium text-ink">
+            <label htmlFor="address" className="text-sm font-medium text-ink">
               Full Address
             </label>
             <Input
@@ -220,14 +203,13 @@ export function CreateEventForm() {
               value={formState.address}
               onChange={(e) => HandleFieldChange("address", e.target.value)}
               placeholder="e.g. Bole Road, Addis Ababa"
-              className="rounded-xl border-hairline bg-paper"
             />
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="latitude" className="text-xs font-medium text-ink">
+            <label htmlFor="latitude" className="text-sm font-medium text-ink">
               Latitude Coordinates
             </label>
             <Input
@@ -237,12 +219,12 @@ export function CreateEventForm() {
               value={formState.latitude ?? ""}
               onChange={(e) => HandleFieldChange("latitude", e.target.value ? parseFloat(e.target.value) : null)}
               placeholder="e.g. 9.0107"
-              className="rounded-xl border-hairline bg-paper font-mono text-xs"
+              className="font-mono"
             />
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="longitude" className="text-xs font-medium text-ink">
+            <label htmlFor="longitude" className="text-sm font-medium text-ink">
               Longitude Coordinates
             </label>
             <Input
@@ -252,20 +234,20 @@ export function CreateEventForm() {
               value={formState.longitude ?? ""}
               onChange={(e) => HandleFieldChange("longitude", e.target.value ? parseFloat(e.target.value) : null)}
               placeholder="e.g. 38.7612"
-              className="rounded-xl border-hairline bg-paper font-mono text-xs"
+              className="font-mono"
             />
           </div>
         </div>
 
         {formState.latitude && formState.longitude ? (
-          <div className="rounded-2xl overflow-hidden border border-hairline shadow-sm aspect-[16/9] w-full bg-paper">
-            <iframe
-              title="Location Preview"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              loading="lazy"
-              src={`https://maps.google.com/maps?q=${formState.latitude},${formState.longitude}&z=15&output=embed`}
+          <div className="rounded-2xl overflow-hidden shadow-sm aspect-[16/9] w-full bg-paper relative z-0">
+            <DynamicLocationPicker
+              latitude={formState.latitude}
+              longitude={formState.longitude}
+              onChange={(lat, lng) => {
+                HandleFieldChange("latitude", Number(lat.toFixed(6)));
+                HandleFieldChange("longitude", Number(lng.toFixed(6)));
+              }}
             />
           </div>
         ) : null}

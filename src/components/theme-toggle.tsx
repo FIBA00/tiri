@@ -21,7 +21,7 @@ export function ThemeSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-hairline text-ink transition-all duration-200 hover:bg-seal/10 hover:border-seal/30 focus-visible:outline-none"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-xl text-muted hover:text-ink transition-all duration-200 hover:bg-seal/10 focus-visible:outline-none"
         aria-label="Toggle theme"
       >
         {!mounted ? (

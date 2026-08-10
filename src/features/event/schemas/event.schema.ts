@@ -13,6 +13,27 @@ export const createEventSchema = z.object({
 
 export type CreateEventInput = z.infer<typeof createEventSchema>;
 
+export const updateEventSchema = z.object({
+  eventId: z.string().min(1),
+  name: z.string().min(3, "Event name must be at least 3 characters").optional(),
+  location: z.string().optional().nullable(),
+  latitude: z.number().optional().nullable(),
+  longitude: z.number().optional().nullable(),
+  description: z.string().optional().nullable(),
+  date: z.coerce.date().optional(),
+  isDraft: z.boolean().optional(),
+  templateId: z.string().optional().nullable(),
+  checkInPin: z.string().optional().nullable(),
+});
+
+export type UpdateEventInput = z.infer<typeof updateEventSchema>;
+
+export const deleteEventSchema = z.object({
+  eventId: z.string().min(1),
+});
+
+export type DeleteEventInput = z.infer<typeof deleteEventSchema>;
+
 export const getEventsSchema = z.object({
   page: z.coerce.number().int().min(1).positive().default(1),
   limit: z.coerce.number().int().min(1).max(50).positive().default(10),

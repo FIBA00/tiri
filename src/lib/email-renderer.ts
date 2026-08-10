@@ -13,6 +13,8 @@ export const DEFAULT_EMAIL_TEMPLATE = `<!DOCTYPE html>
       .content { padding: 36px 28px; line-height: 1.6; }
       .event-card { background: #faf9f7; border: 1px solid #e7e5e4; border-left: 4px solid #6d28d9; padding: 20px; border-radius: 12px; margin: 24px 0; }
       .detail-row { margin: 8px 0; font-size: 15px; color: #444; }
+      .map-btn-container { margin-top: 16px; }
+      .map-btn { display: inline-block; background-color: #6d28d9; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; }
       .code-container { background: #faf9f7; border: 2px dashed #6d28d9; border-radius: 16px; padding: 20px; text-align: center; margin: 28px 0; }
       .code-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: #6d28d9; margin-bottom: 6px; }
       .code-value { font-family: 'Courier New', Courier, monospace; font-size: 28px; font-weight: 800; letter-spacing: 6px; color: #1a1625; margin: 4px 0; }
@@ -32,13 +34,15 @@ export const DEFAULT_EMAIL_TEMPLATE = `<!DOCTYPE html>
         <div class="event-card">
           <div class="detail-row">📅 <strong>Date & Time:</strong> {{date}}</div>
           <div class="detail-row">📍 <strong>Location:</strong> {{location}}</div>
-          <div class="detail-row">📝 <strong>Details:</strong> {{description}}</div>
+          {{mapButton}}
+          <div class="detail-row" style="margin-top: 16px;">📝 <strong>Details:</strong> {{description}}</div>
         </div>
 
         <div class="code-container">
           <div class="code-label">Your Personal Entry Passcode</div>
+          <div style="margin: 16px 0;">{{qrCode}}</div>
           <div class="code-value">{{code}}</div>
-          <p style="font-size: 12px; color: #78716c; margin-top: 8px; margin-bottom: 0;">Show this 8-character code at the door for entry verification.</p>
+          <p style="font-size: 12px; color: #78716c; margin-top: 8px; margin-bottom: 0;">Show this 8-character code or QR code at the door for entry verification.</p>
         </div>
 
         <p style="text-align: center; color: #78716c; font-size: 14px;">We look forward to seeing you there!</p>
@@ -59,12 +63,18 @@ export function GenerateInviteEmailHtml(
   date?: string,
   location?: string,
   description?: string,
+  latitude?: number | null,
+  longitude?: number | null,
 ): string {
   const templateToUse = customTemplate || DEFAULT_EMAIL_TEMPLATE;
   const currentYear = new Date().getFullYear().toString();
 
   const qrImageHtml = qrCodeDataUri
-    ? `<img src="${qrCodeDataUri}" alt="QR Code for ${code}" style="display: inline-block; width: 180px; height: 180px; border-radius: 8px;" />`
+    ? `<img src="cid:qrcode-${code}" alt="QR Code for ${code}" style="display: inline-block; width: 180px; height: 180px; border-radius: 8px;" />`
+    : "";
+
+  const mapButtonHtml = latitude && longitude
+    ? `<div class="map-btn-container"><a href="https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}" class="map-btn" target="_blank">View on Google Maps</a></div>`
     : "";
 
   return templateToUse
@@ -74,6 +84,7 @@ export function GenerateInviteEmailHtml(
     .replace(/{{qrCode}}/g, qrImageHtml)
     .replace(/{{date}}/g, date || "Date & Time TBA")
     .replace(/{{location}}/g, location || "Location TBA")
+    .replace(/{{mapButton}}/g, mapButtonHtml)
     .replace(/{{description}}/g, description || "No additional description provided.")
     .replace(/{{year}}/g, currentYear);
 }

@@ -3,22 +3,42 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --paper: #faf9f7;
+  --paper: #f9fafb;
   --paper-raised: #ffffff;
-  --ink: #1a1625;
+  --ink: #030712;
   --seal: #6d28d9;
   --seal-hover: #5b21b6;
   --emerald: #059669;
   --gold: #d97706;
-  --muted: #78716c;
-  --hairline: #e7e5e4;
+  --muted: #6b7280;
+  --hairline: #e5e7eb;
   --accent-gradient: linear-gradient(135deg, #6d28d9 0%, #a855f7 50%, #6d28d9 100%);
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.4);
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+
+  /* Shadcn mappings */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--seal);
+  --primary-foreground: #ffffff;
+  --secondary: var(--paper);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent: #f3f4f6;
+  --accent-foreground: var(--ink);
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--seal);
 }
 
 .dark {
@@ -38,6 +58,26 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.2);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+
+  /* Shadcn mappings */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--paper-raised);
+  --card-foreground: var(--ink);
+  --popover: var(--paper-raised);
+  --popover-foreground: var(--ink);
+  --primary: var(--seal);
+  --primary-foreground: #000000;
+  --secondary: var(--paper);
+  --secondary-foreground: var(--ink);
+  --muted-foreground: var(--muted);
+  --accent: rgba(168, 85, 247, 0.15);
+  --accent-foreground: var(--ink);
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: var(--hairline);
+  --input: var(--hairline);
+  --ring: var(--seal);
 }
 
 @theme inline {

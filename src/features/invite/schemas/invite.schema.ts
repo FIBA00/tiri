@@ -16,8 +16,8 @@ export const createInviteSchema = z.object({
 
 export const getInviteSchema = z.object({
   page: z.coerce.number().int().min(1).positive().default(1),
-  limit: z.coerce.number().int().min(10).max(20).positive().default(10),
-  status: z.enum(INVITESTATUS).default("PENDING"),
+  limit: z.coerce.number().int().min(5).max(50).positive().default(20),
+  status: z.enum(["PENDING", "ENTERED", "EXITED", "CANCELED"]).optional(),
   sort: z.enum(["createdAt", "inviteeName", "quantity"]).default("createdAt"),
   order: z.enum(["asc", "desc"]).default("desc"),
   search: z.string().min(2).optional(),

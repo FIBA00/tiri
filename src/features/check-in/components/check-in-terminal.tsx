@@ -9,6 +9,7 @@ import { Camera, Keyboard, UserCheck, LogOut, XCircle, RotateCcw } from "lucide-
 
 interface CheckInTerminalProps {
   eventId: string;
+  pin?: string;
 }
 
 type ScannedInvite = {
@@ -19,7 +20,7 @@ type ScannedInvite = {
   status: "PENDING" | "ENTERED" | "EXITED" | "CANCELED";
 };
 
-export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
+export function CheckInTerminal({ eventId, pin }: CheckInTerminalProps) {
   const [inputValue, setInputValue] = useState("");
   const [scannedInvite, setScannedInvite] = useState<ScannedInvite | null>(null);
   const [feedbackMsg, setFeedbackMsg] = useState<{ type: "error" | "success"; text: string } | null>(null);
@@ -61,7 +62,7 @@ export function CheckInTerminal({ eventId }: CheckInTerminalProps) {
       return;
     }
 
-    const result = await verifyAction.executeAsync({ code: cleanCode, eventId });
+    const result = await verifyAction.executeAsync({ code: cleanCode, eventId, pin });
 
     if (result?.data?.success && result.data.data) {
       setScannedInvite(result.data.data as ScannedInvite);

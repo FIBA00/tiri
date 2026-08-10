@@ -1,22 +1,18 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { CheckInTerminal } from "@/features/check-in/components/check-in-terminal";
 import { ScanLine } from "lucide-react";
+import { CheckInTerminalContainer } from "./terminal-container";
 
 type SessionUserWithRole = {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
   email: string;
-  emailVerified: boolean;
   name: string;
-  image?: string | null;
   role: string[];
 };
 
-export default async function CheckInPage({
+export default async function PublicCheckInPage({
   params,
 }: {
   params: Promise<{ eventId: string }>;
@@ -27,21 +23,15 @@ export default async function CheckInPage({
   const rawSession = await auth.api.getSession({
     headers: reqHeaders,
   });
-
-  if (!rawSession?.user) {
-    redirect("/sign-in");
-  }
-
-  const sessionUser = rawSession.user as SessionUserWithRole;
+  const sessionUser = rawSession?.user as SessionUserWithRole | undefined;
 
   const eventDetails = await prisma.event.findUnique({
-    where: {
-      id: eventId,
-    },
+    where: { id: eventId },
     select: {
       id: true,
       userId: true,
       name: true,
+      checkInPin: true,
     },
   });
 
@@ -49,16 +39,13 @@ export default async function CheckInPage({
     notFound();
   }
 
-  const isOwner = eventDetails.userId === sessionUser.id;
-  const isAdmin = sessionUser.role?.includes("admin");
-
-  if (!isOwner && !isAdmin) {
-    redirect("/unauthorized");
-  }
+  const isOwner = sessionUser?.id === eventDetails.userId;
+  const isAdmin = sessionUser?.role?.includes("admin");
+  const requiresPin = !!eventDetails.checkInPin && !isOwner && !isAdmin;
 
   return (
-    <div className="flex flex-col items-center animate-fade-in">
-      <div className="glass mb-8 w-full max-w-md rounded-2xl p-6 text-center shadow-lg border border-hairline">
+    <div className="min-h-screen bg-[#f5f4f8] dark:bg-[#1a1625] flex flex-col items-center py-12 px-4 animate-fade-in">
+      <div className="glass mb-8 w-full max-w-md rounded-2xl p-6 text-center shadow-lg border border-hairline bg-paper">
         <div className="mb-4 flex justify-center">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-seal/10 text-seal">
             <ScanLine className="h-6 w-6" />
@@ -71,7 +58,7 @@ export default async function CheckInPage({
       </div>
 
       <div className="w-full max-w-md">
-        <CheckInTerminal eventId={eventDetails.id} />
+        <CheckInTerminalContainer eventId={eventDetails.id} requiresPin={requiresPin} />
       </div>
     </div>
   );

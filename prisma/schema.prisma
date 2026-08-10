@@ -117,6 +117,7 @@ model Event {
   description String?
   date        DateTime
   isDraft     Boolean  @default(false)
+  checkInPin  String?
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
