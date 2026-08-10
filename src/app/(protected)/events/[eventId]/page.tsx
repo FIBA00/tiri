@@ -76,64 +76,70 @@ export default async function EventDetailPage({
   }, {});
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="grid gap-4 grid-cols-2 md:grid-cols-4">
+    <div className="flex flex-col gap-8 pb-12">
+      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
         {Object.entries(STATUS_CONFIG).map(function RenderStatCard([key, config]) {
           const count = statusCounts[key] ?? 0;
           const Icon = config.icon;
 
           return (
-            <div key={key} className="card-surface p-5 flex items-center justify-between">
+            <div key={key} className="bg-paper-raised border border-hairline rounded-2xl p-6 flex items-center justify-between shadow-sm transition-transform hover:-translate-y-1 duration-300">
               <div>
                 <p className="font-display text-3xl font-bold text-ink">{count}</p>
-                <p className="text-xs font-medium text-muted mt-1">{config.label}</p>
+                <p className="text-sm font-medium text-muted mt-1">{config.label}</p>
               </div>
-              <div className={`p-3 rounded-2xl ${config.color}`}>
-                <Icon className="h-5 w-5" />
+              <div className={`p-4 rounded-2xl ${config.color}`}>
+                <Icon className="h-6 w-6" />
               </div>
             </div>
           );
         })}
       </div>
 
-      {eventDetails.latitude && eventDetails.longitude ? (
-        <div className="card-surface p-6 flex flex-col gap-4">
-          <h3 className="font-display text-base font-semibold text-ink flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-seal" />
-            Geospatial Map Coordinates
-          </h3>
-          <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-muted mb-2">
-            <span>Latitude: {eventDetails.latitude}</span>
-            <span>Longitude: {eventDetails.longitude}</span>
-          </div>
-          <div className="rounded-xl overflow-hidden border border-hairline shadow-sm aspect-[21/9] w-full bg-paper relative z-0">
-            <iframe
-              title="Event Location Map"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              loading="lazy"
-              src={`https://maps.google.com/maps?q=${eventDetails.latitude},${eventDetails.longitude}&z=15&output=embed`}
-            />
-          </div>
+      <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
+        <div className="flex flex-col gap-8">
+          <EventGuestList invitations={eventDetails.invitations} />
+          
+          {eventDetails.latitude && eventDetails.longitude ? (
+            <div className="bg-paper-raised border border-hairline rounded-2xl p-6 md:p-8 flex flex-col gap-6 shadow-sm">
+              <h3 className="font-display text-xl font-bold text-ink flex items-center gap-3">
+                <div className="p-2 bg-seal/10 rounded-lg">
+                  <MapPin className="h-5 w-5 text-seal" />
+                </div>
+                Event Location
+              </h3>
+              <div className="rounded-2xl overflow-hidden border border-hairline shadow-inner aspect-video w-full bg-paper relative z-0">
+                <iframe
+                  title="Event Location Map"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  src={`https://maps.google.com/maps?q=${eventDetails.latitude},${eventDetails.longitude}&z=15&output=embed`}
+                />
+              </div>
+            </div>
+          ) : null}
         </div>
-      ) : null}
 
-      <div className="grid gap-8 lg:grid-cols-3">
-        <EventGuestList invitations={eventDetails.invitations} />
-
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <Mail className="h-5 w-5 text-seal" />
-            <h3 className="font-display text-lg font-semibold text-ink">Email Template Used</h3>
+        <div className="flex flex-col gap-6">
+          <div className="bg-paper-raised border border-hairline rounded-2xl p-6 md:p-8 flex flex-col gap-6 shadow-sm sticky top-24">
+            <h3 className="font-display text-xl font-bold text-ink flex items-center gap-3">
+              <div className="p-2 bg-seal/10 rounded-lg">
+                <Mail className="h-5 w-5 text-seal" />
+              </div>
+              Email Template
+            </h3>
+            <div className="w-full aspect-[3/4] max-h-[600px] overflow-hidden rounded-xl border border-hairline">
+              <TemplatePreview
+                html={eventDetails.template?.html}
+                eventName={eventDetails.name}
+                date={new Date(eventDetails.date).toLocaleString()}
+                location={eventDetails.location || undefined}
+                description={eventDetails.description || undefined}
+              />
+            </div>
           </div>
-          <TemplatePreview
-            html={eventDetails.template?.html}
-            eventName={eventDetails.name}
-            date={new Date(eventDetails.date).toLocaleString()}
-            location={eventDetails.location || undefined}
-            description={eventDetails.description || undefined}
-          />
         </div>
       </div>
     </div>

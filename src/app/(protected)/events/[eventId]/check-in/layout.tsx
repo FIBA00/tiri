@@ -3,7 +3,7 @@ import React from "react";
 export default async function CheckInLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-paper font-sans text-ink">
-      <header className="glass sticky top-0 z-10 border-b border-hairline px-6 py-4">
+      <header className="bg-paper sticky top-0 z-10 border-b border-hairline px-6 py-4">
         <div className="mx-auto flex max-w-5xl items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="font-display text-xl font-bold tracking-tight text-ink">Tiri</div>

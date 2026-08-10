@@ -31,55 +31,55 @@ export async function SendBulkEmails(params: SendBulkEmailInput) {
     };
   }
 
-  const emailPromises = validInvites.map(async (invite) => {
-    const qrCodeDataUri = await GenerateQrCodeDataUri(invite.code);
-    const templateHtml = customHtmlTemplate || invite.event.template?.html;
-
-    const htmlContent = GenerateInviteEmailHtml(
-      invite.inviteeName,
-      invite.event.name,
-      invite.code,
-      qrCodeDataUri,
-      templateHtml,
-      new Date(invite.event.date).toLocaleString(),
-      invite.event.location || undefined,
-      invite.event.description || undefined,
-      invite.event.latitude,
-      invite.event.longitude
-    );
-
-    const attachments = qrCodeDataUri
-      ? [
-          {
-            filename: `qrcode-${invite.code}.png`,
-            path: qrCodeDataUri,
-            cid: `qrcode-${invite.code}`,
-          },
-        ]
-      : [];
-
-    return emailTransporter.sendMail({
-      from: `"Event Team" <${process.env.SMTP_USER || "invitations@tiri.app"}>`,
-      to: invite.email!,
-      subject: `Your Invitation for ${invite.event.name}`,
-      html: htmlContent,
-      attachments,
-    });
-  });
-
-  const results = await Promise.allSettled(await Promise.all(emailPromises));
-
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+  
   let sentCount = 0;
   let failedCount = 0;
 
-  results.forEach((result) => {
-    if (result.status === "fulfilled") {
+  for (const invite of validInvites) {
+    try {
+      const qrCodeDataUri = await GenerateQrCodeDataUri(invite.code);
+      const templateHtml = customHtmlTemplate || invite.event.template?.html;
+
+      const htmlContent = GenerateInviteEmailHtml(
+        invite.inviteeName,
+        invite.event.name,
+        invite.code,
+        qrCodeDataUri,
+        templateHtml,
+        new Date(invite.event.date).toLocaleString(),
+        invite.event.location || undefined,
+        invite.event.description || undefined,
+        invite.event.latitude,
+        invite.event.longitude
+      );
+
+      const attachments = qrCodeDataUri
+        ? [
+            {
+              filename: `qrcode-${invite.code}.png`,
+              path: qrCodeDataUri,
+              cid: `qrcode-${invite.code}`,
+            },
+          ]
+        : [];
+
+      await emailTransporter.sendMail({
+        from: `"Event Team" <${process.env.SMTP_USER || "invitations@tiri.app"}>`,
+        to: invite.email!,
+        subject: `Your Invitation for ${invite.event.name}`,
+        html: htmlContent,
+        attachments,
+      });
+
       sentCount++;
-    } else {
+      // Sleep for 250ms between emails to prevent rate limiting (Max ~4 emails/sec)
+      await sleep(250);
+    } catch (error) {
       failedCount++;
-      console.error("Failed to send email:", result.reason);
+      console.error(`Failed to send email to ${invite.email}:`, error);
     }
-  });
+  }
 
   return { sentCount, failedCount };
 }

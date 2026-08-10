@@ -27,7 +27,10 @@ export function TemplatePreview({
     html || undefined,
     date,
     location,
-    description
+    description,
+    null,
+    null,
+    true
   );
 
   return (

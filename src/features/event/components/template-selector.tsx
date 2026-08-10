@@ -34,6 +34,12 @@ export function TemplateSelector() {
       const res = await listAction.executeAsync({});
       if (res?.data?.success && res.data.data) {
         setTemplatesList(res.data.data);
+        if (!selectedId && res.data.data.length > 0) {
+          const first = res.data.data.find(t => t.name === "Default Minimal Template") || res.data.data[0];
+          setSelectedId(first.id);
+          setSelectedHtml(first.html);
+          setTemplate(first.id, first.html);
+        }
       }
     }
     FetchTemplates();
@@ -114,74 +120,32 @@ export function TemplateSelector() {
   }
 
   return (
-    <div className="card-surface max-w-4xl mx-auto p-6 md:p-10 flex flex-col gap-8">
-      <WizardSteps currentStep={3} />
-
-      <div className="flex items-center justify-between border-b border-hairline pb-4">
-        <div>
-          <h2 className="font-display text-2xl font-bold text-ink">Email Template</h2>
-          <p className="text-sm text-muted">Select a default email template or convert an image design with Gemini AI.</p>
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={HandleSaveDraft}
-          className="inline-flex items-center gap-1.5 rounded-xl border-hairline text-xs font-medium text-muted hover:text-ink"
-        >
-          <Bookmark className="h-4 w-4 text-seal" />
-          Save Draft & Exit
-        </Button>
+    <div className="flex flex-col gap-12 max-w-6xl w-full mx-auto pb-20">
+      <div className="flex flex-col gap-4 items-center mb-4">
+        <WizardSteps currentStep={3} />
+        <h1 className="font-display text-4xl font-bold text-ink tracking-tight mt-6">Email Template</h1>
+        <p className="text-muted text-center max-w-xl">
+          Select a default email template or convert an image design with Gemini AI.
+        </p>
       </div>
 
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 pb-12">
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-3">
-            <h3 className="font-display text-base font-semibold text-ink">Select Base Template</h3>
-
-            <button
-              type="button"
-              onClick={HandleSelectDefault}
-              className={`w-full p-4 rounded-2xl border text-left transition-all ${
-                selectedId === null
-                  ? "border-seal bg-seal/10 ring-2 ring-seal/20"
-                  : "border-hairline bg-paper hover:border-seal/50"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-ink">Default Beautiful Email Template</span>
-                {selectedId === null && <CheckCircle2 className="h-5 w-5 text-seal" />}
-              </div>
-              <p className="text-xs text-muted mt-1">Clean, responsive invitation design with passcode and QR code.</p>
-            </button>
-
-            {templatesList.map((tpl) => (
-              <button
-                key={tpl.id}
-                type="button"
-                onClick={() => HandleSelectSaved(tpl)}
-                className={`w-full p-4 rounded-2xl border text-left transition-all ${
-                  selectedId === tpl.id
-                    ? "border-seal bg-seal/10 ring-2 ring-seal/20"
-                    : "border-hairline bg-paper hover:border-seal/50"
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="font-medium text-ink">{tpl.name}</span>
-                  {selectedId === tpl.id && <CheckCircle2 className="h-5 w-5 text-seal" />}
-                </div>
-                <p className="text-xs text-muted mt-1">Saved HTML Email Template</p>
-              </button>
-            ))}
+          <div>
+            <h2 className="font-display text-2xl font-bold text-ink">Choose Design</h2>
+            <p className="text-sm text-muted mt-2">
+              Select an existing template or generate a new one from an image.
+            </p>
           </div>
-
+          
           <div className="card-surface p-5 rounded-2xl border border-dashed border-seal/30 bg-seal/5 flex flex-col gap-4">
             <div className="flex items-center gap-2">
               <div className="p-2 rounded-xl bg-seal text-white">
                 <Sparkles className="h-4 w-4" />
               </div>
               <div>
-                <h4 className="font-display text-sm font-semibold text-ink">Convert Image to HTML with Gemini AI</h4>
-                <p className="text-xs text-muted">Upload an invitation card design to generate custom email HTML.</p>
+                <h4 className="font-display text-sm font-semibold text-ink">Generate with Gemini AI</h4>
+                <p className="text-xs text-muted">Upload a design to convert to HTML.</p>
               </div>
             </div>
 
@@ -201,7 +165,7 @@ export function TemplateSelector() {
                 className="w-full py-6 border-dashed border-hairline rounded-xl flex flex-col gap-1 items-center justify-center text-xs text-muted hover:border-seal"
               >
                 <Upload className="h-5 w-5 text-seal" />
-                Click to upload design image (PNG, JPG)
+                Upload design image (PNG, JPG)
               </Button>
             ) : (
               <div className="flex flex-col gap-3">
@@ -222,7 +186,7 @@ export function TemplateSelector() {
                 <Input
                   value={templateName}
                   onChange={(e) => setTemplateName(e.target.value)}
-                  placeholder="Template Name (e.g. Elegant Gold Theme)"
+                  placeholder="Template Name"
                   className="rounded-xl text-xs bg-paper border-hairline"
                 />
 
@@ -230,44 +194,73 @@ export function TemplateSelector() {
                   type="button"
                   onClick={HandleGenerateWithGemini}
                   disabled={isGenerating}
-                  className="btn-seal w-full py-2.5 text-xs inline-flex items-center gap-2"
+                  className="btn-seal w-full py-2.5 text-xs inline-flex items-center justify-center gap-2"
                 >
                   <Sparkles className="h-4 w-4" />
-                  {isGenerating ? "Generating HTML with Gemini AI..." : "Generate HTML Template"}
+                  {isGenerating ? "Generating..." : "Generate HTML Template"}
                 </Button>
               </div>
             )}
 
             {errorMsg ? <p className="font-mono text-xs text-seal">{errorMsg}</p> : null}
           </div>
+          
+          <div className="flex flex-col gap-3">
+            <h3 className="font-display text-sm font-semibold text-ink mt-2">Saved Templates</h3>
+            
+
+
+            {templatesList.map((tpl) => (
+              <button
+                key={tpl.id}
+                type="button"
+                onClick={() => HandleSelectSaved(tpl)}
+                className={`w-full p-4 rounded-2xl border text-left transition-all ${
+                  selectedId === tpl.id
+                    ? "border-seal bg-seal/10 ring-2 ring-seal/20"
+                    : "border-hairline bg-paper hover:border-seal/50"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-medium text-ink">{tpl.name}</span>
+                  {selectedId === tpl.id && <CheckCircle2 className="h-5 w-5 text-seal" />}
+                </div>
+                <p className="text-xs text-muted mt-1">Saved HTML Email Template</p>
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="flex flex-col gap-3">
-          <h3 className="font-display text-base font-semibold text-ink">Live Template Preview</h3>
-          <TemplatePreview
-            html={selectedHtml}
-            eventName={event?.name}
-            date={event?.date ? new Date(event.date).toLocaleString() : undefined}
-            location={event?.venueName || event?.address}
-            description={event?.description}
-          />
+        <div className="card-surface p-6 md:p-8 flex flex-col gap-6 rounded-2xl border border-hairline bg-paper">
+          <h3 className="font-display text-lg font-semibold text-ink">Live Preview</h3>
+          <div className="w-full h-full min-h-[400px]">
+            <TemplatePreview
+              html={selectedHtml}
+              eventName={event?.name}
+              date={event?.date ? new Date(event.date).toLocaleString() : undefined}
+              location={event?.venueName || event?.address}
+              description={event?.description}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t border-hairline pt-6">
-        <Button
-          type="button"
-          variant="ghost"
-          onClick={() => router.push("/events/new/guests")}
-          className="inline-flex items-center gap-2 text-muted"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Guest List
+      {/* Floating Action Bar */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-paper-raised border border-hairline p-3 md:p-4 rounded-2xl shadow-2xl flex items-center justify-between z-50">
+        <Button type="button" variant="ghost" onClick={() => router.push("/events/new/guests")} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-6">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
         </Button>
-        <Button type="button" onClick={HandleContinue} className="btn-seal inline-flex items-center gap-2 px-8">
-          Continue to Preview
-          <ArrowRight className="h-4 w-4" />
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4">
+            <Bookmark className="h-4 w-4 mr-2" />
+            Save Draft
+          </Button>
+          <Button type="button" onClick={HandleContinue} className="btn-seal rounded-xl px-8 shadow-md">
+            Continue to Preview
+            <ArrowRight className="h-4 w-4 ml-2" />
+          </Button>
+        </div>
       </div>
     </div>
   );

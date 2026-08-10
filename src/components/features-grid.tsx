@@ -37,7 +37,7 @@ export function FeaturesGrid() {
             return (
               <div
                 key={feature.title}
-                className="card-surface glass p-8 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300"
+                className="card-surface p-8 flex flex-col justify-between hover:-translate-y-1 transition-all duration-300"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">

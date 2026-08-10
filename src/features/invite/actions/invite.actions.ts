@@ -12,7 +12,7 @@ import {
 import { CreateInvite } from "../services/create-invite";
 import { GetInvites } from "../services/get-invite";
 import { UpdateInvite } from "../services/update-invite";
-import { SendBulkEmails } from "../services/send-emails";
+import { EnqueueBulkEmails } from "../services/enqueue-emails";
 import { CreateEvent } from "@/features/event/services/create-event";
 
 const PHONE_REGEX = /^\+2519\d{8}$/;
@@ -59,7 +59,7 @@ export const updateInviteAction = authActionClient
 export const sendBulkEmailsAction = authActionClient
   .schema(sendBulkEmailSchema)
   .action(async ({ parsedInput }) => {
-    const mailResult = await SendBulkEmails(parsedInput);
+    const mailResult = await EnqueueBulkEmails(parsedInput);
 
     return {
       success: true,
@@ -141,8 +141,8 @@ export const finalizeAndSendAction = authActionClient
 
     const mailResult =
       emailableIds.length > 0
-        ? await SendBulkEmails({ invitationIds: emailableIds })
-        : { sentCount: 0, failedCount: 0 };
+        ? await EnqueueBulkEmails({ invitationIds: emailableIds })
+        : { enqueuedCount: 0, failedCount: 0 };
 
     return {
       success: true,
@@ -151,7 +151,8 @@ export const finalizeAndSendAction = authActionClient
         createdCount: createdInvites.length,
         skippedCount,
         isDraft: false,
-        ...mailResult,
+        sentCount: mailResult.enqueuedCount,
+        failedCount: mailResult.failedCount,
       },
     };
   });

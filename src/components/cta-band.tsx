@@ -9,7 +9,7 @@ export function CtaBand() {
       <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-emerald/20 rounded-full blur-3xl" />
 
       <div className="relative mx-auto max-w-3xl text-center flex flex-col items-center gap-6">
-        <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90 backdrop-blur-sm border border-white/20">
+        <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium text-white/90">
           <Sparkles className="h-3.5 w-3.5" />
           Get Started In Minutes
         </div>

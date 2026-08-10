@@ -116,68 +116,74 @@ export default function GuestsPage() {
   }
 
   return (
-    <main className="min-h-[85vh] max-w-4xl mx-auto px-4 py-8 md:py-12 flex flex-col gap-8">
-      <div className="card-surface p-6 md:p-10 flex flex-col gap-6">
-        <WizardSteps currentStep={2} />
+    <main className="min-h-screen px-4 py-8 md:py-12 md:px-8">
+      <div className="flex flex-col gap-12 max-w-6xl w-full mx-auto pb-20">
+        <div className="flex flex-col gap-4 items-center mb-4">
+          <WizardSteps currentStep={2} />
+          <h1 className="font-display text-4xl font-bold text-ink tracking-tight mt-6">Build Guest List</h1>
+          <p className="text-muted text-center max-w-xl">
+            For {event.name}. Add guests manually or import them from an Excel file.
+          </p>
+        </div>
 
-        <div className="flex items-center justify-between border-b border-hairline pb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 pb-12">
           <div>
-            <h1 className="font-display text-2xl font-bold text-ink">Build Guest List</h1>
-            <p className="text-sm text-muted">For {event.name}</p>
-          </div>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={HandleSaveDraft}
-            className="inline-flex items-center gap-1.5 rounded-xl border-hairline text-xs font-medium text-muted hover:text-ink"
-          >
-            <Bookmark className="h-4 w-4 text-seal" />
-            Save Draft & Exit
-          </Button>
-        </div>
-
-        <AddGuestForm />
-
-        <div className="flex flex-wrap items-center justify-between gap-4 bg-paper/60 p-4 rounded-2xl border border-hairline">
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-seal" />
-            <span className="text-xs font-semibold text-ink">Excel Options</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <DownloadTemplateButton />
-            <ExcelImportButton />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-display text-base font-semibold text-ink">
-              Guest List ({guests.length})
-            </h3>
-          </div>
-
-          {guests.length === 0 ? (
-            <div className="p-8 text-center border border-dashed border-hairline rounded-2xl bg-paper text-muted text-sm">
-              No guests added yet. Add a guest using the form above or import an Excel file.
+            <h2 className="font-display text-2xl font-bold text-ink">Add Guests</h2>
+            <p className="text-sm text-muted mt-2">
+              Import a list of guests or add them one by one.
+            </p>
+            
+            <div className="mt-8 flex flex-col gap-4 bg-paper/60 p-5 rounded-2xl border border-hairline">
+              <div className="flex items-center gap-2 mb-2">
+                <Users className="h-4 w-4 text-seal" />
+                <span className="text-sm font-semibold text-ink">Excel Options</span>
+              </div>
+              <DownloadTemplateButton />
+              <ExcelImportButton />
             </div>
-          ) : (
-            <ul className="flex flex-col gap-2 max-h-[400px] overflow-y-auto pr-1">
-              {guests.map((g) => (
-                <GuestRowItem key={g.id} guest={g} onUpdate={updateGuest} onRemove={removeGuest} />
-              ))}
-            </ul>
-          )}
+          </div>
+
+          <div className="card-surface p-6 md:p-8 flex flex-col gap-8 rounded-2xl border border-hairline bg-paper">
+            <AddGuestForm />
+
+            <div className="flex flex-col gap-4 border-t border-hairline pt-8">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-lg font-semibold text-ink">
+                  Guest List ({guests.length})
+                </h3>
+              </div>
+
+              {guests.length === 0 ? (
+                <div className="p-10 text-center border border-dashed border-hairline rounded-2xl bg-paper-raised text-muted text-sm">
+                  No guests added yet. Add a guest using the form above or import an Excel file.
+                </div>
+              ) : (
+                <ul className="flex flex-col gap-3 max-h-[500px] overflow-y-auto pr-2">
+                  {guests.map((g) => (
+                    <GuestRowItem key={g.id} guest={g} onUpdate={updateGuest} onRemove={removeGuest} />
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-hairline pt-6">
-          <Button type="button" variant="ghost" onClick={() => router.push("/events/new")} className="inline-flex items-center gap-2 text-muted">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Details
+        {/* Floating Action Bar */}
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-paper-raised border border-hairline p-3 md:p-4 rounded-2xl shadow-2xl flex items-center justify-between z-50">
+          <Button type="button" variant="ghost" onClick={() => router.push("/events/new")} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-6">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
           </Button>
-          <Button type="button" onClick={HandleContinue} disabled={guests.length === 0} className="btn-seal inline-flex items-center gap-2 px-8">
-            Continue to Email Template
-            <ArrowRight className="h-4 w-4" />
-          </Button>
+          <div className="flex items-center gap-3">
+            <Button type="button" variant="ghost" onClick={HandleSaveDraft} className="text-muted hover:text-ink hover:bg-seal/5 rounded-xl px-4">
+              <Bookmark className="h-4 w-4 mr-2" />
+              Save Draft
+            </Button>
+            <Button type="button" onClick={HandleContinue} disabled={guests.length === 0} className="btn-seal rounded-xl px-8 shadow-md">
+              Continue to Templates
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </div>
         </div>
       </div>
     </main>

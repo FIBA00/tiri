@@ -46,7 +46,7 @@ export function NavBar() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 glass ${
+        className={`sticky top-0 z-50 w-full transition-all duration-300 bg-paper ${
           hasScrolled ? "border-b border-hairline shadow-sm" : "border-b border-transparent"
         }`}
       >
@@ -101,7 +101,7 @@ export function NavBar() {
                     <DropdownMenuTrigger className="w-10 h-10 rounded-full bg-gradient-to-br from-seal to-seal-hover shadow-sm border border-hairline flex items-center justify-center text-white font-display font-bold hover:scale-105 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-seal ring-offset-2 ring-offset-paper">
                       {session.user?.name ? session.user.name.charAt(0).toUpperCase() : <User className="h-4 w-4" />}
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-64 border-hairline rounded-2xl p-2 shadow-xl bg-paper-raised/95 backdrop-blur-xl">
+                    <DropdownMenuContent align="end" className="w-64 border-hairline rounded-2xl p-2 shadow-xl bg-paper-raised">
                       <DropdownMenuGroup>
                         <DropdownMenuLabel className="font-normal p-3">
                           <div className="flex flex-col space-y-1">
@@ -171,7 +171,7 @@ export function NavBar() {
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 top-16 z-40 bg-paper/95 backdrop-blur-xl md:hidden animate-fade-in border-t border-hairline overflow-y-auto">
+        <div className="fixed inset-0 top-16 z-40 bg-paper md:hidden animate-fade-in border-t border-hairline overflow-y-auto">
           <div className="flex flex-col p-6 gap-8">
             {session && (
               <div className="flex items-center gap-4 bg-paper-raised p-4 rounded-2xl border border-hairline">

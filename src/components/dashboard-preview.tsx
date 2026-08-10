@@ -15,7 +15,7 @@ export function DashboardPreview() {
           One dashboard for every RSVP and door check-in.
         </h2>
 
-        <div className="card-surface glass mt-10 p-8 shadow-xl">
+        <div className="card-surface mt-10 p-8 shadow-xl">
           <div className="flex items-center justify-between border-b border-hairline pb-4">
             <div>
               <span className="font-display text-lg font-bold text-ink">

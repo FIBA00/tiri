@@ -4,7 +4,10 @@ import { prisma } from "@/lib/prisma";
 export async function VerifyCode(code: string, eventId: string) {
   const inviteData = await prisma.invitation.findFirst({
     where: {
-      code,
+      code: {
+        equals: code,
+        mode: "insensitive",
+      },
       eventId,
     },
   });

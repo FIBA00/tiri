@@ -40,35 +40,37 @@ export function CheckInTerminalContainer({ eventId, requiresPin }: Props) {
 
   if (!isAuthenticated) {
     return (
-      <form onSubmit={handleVerifyPin} className="card-surface p-8 flex flex-col items-center gap-6 text-center">
-        <div className="h-12 w-12 rounded-full bg-seal/10 flex items-center justify-center">
-          <Lock className="h-6 w-6 text-seal" />
-        </div>
-        <div>
-          <h2 className="font-display text-xl font-bold text-ink">Restricted Access</h2>
-          <p className="text-sm text-muted mt-2">
-            Please enter the 6-digit Check-in PIN for this event to access the scanner.
-          </p>
+      <form onSubmit={handleVerifyPin} className="bg-paper-raised border border-hairline rounded-3xl p-8 shadow-xl flex flex-col items-center gap-8 text-center animate-slide-up">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-16 w-16 rounded-full bg-seal/10 flex items-center justify-center">
+            <Lock className="h-7 w-7 text-seal" />
+          </div>
+          <div>
+            <h2 className="font-display text-2xl font-bold text-ink tracking-tight">Restricted Access</h2>
+            <p className="text-sm text-muted mt-2 max-w-xs">
+              Please enter the 6-digit Check-in PIN for this event to unlock the scanner terminal.
+            </p>
+          </div>
         </div>
         
-        <div className="w-full max-w-xs flex flex-col gap-2">
+        <div className="w-full max-w-xs flex flex-col gap-3">
           <div className="relative">
-            <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" />
+            <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted" />
             <Input
               type="password"
               maxLength={6}
-              placeholder="Enter PIN"
-              className="pl-10 text-center tracking-widest font-mono text-lg"
+              placeholder="••••••"
+              className="pl-12 h-14 text-center tracking-[0.5em] font-mono text-2xl font-bold rounded-2xl bg-paper border-2 border-hairline focus:border-seal transition-colors"
               value={pin}
               onChange={(e) => setPin(e.target.value)}
               disabled={loading}
             />
           </div>
-          {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
+          {error && <p className="text-sm text-red-500 font-medium animate-shake">{error}</p>}
         </div>
 
-        <Button type="submit" className="btn-seal w-full max-w-xs" disabled={loading || pin.length !== 6}>
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Unlock Terminal"}
+        <Button type="submit" className="btn-seal w-full max-w-xs h-14 text-lg rounded-2xl font-bold shadow-md hover:shadow-lg transition-all" disabled={loading || pin.length !== 6}>
+          {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "Unlock Terminal"}
         </Button>
       </form>
     );

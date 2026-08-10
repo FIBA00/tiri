@@ -44,21 +44,28 @@ export default async function PublicCheckInPage({
   const requiresPin = !!eventDetails.checkInPin && !isOwner && !isAdmin;
 
   return (
-    <div className="min-h-screen bg-[#f5f4f8] dark:bg-[#1a1625] flex flex-col items-center py-12 px-4 animate-fade-in">
-      <div className="glass mb-8 w-full max-w-md rounded-2xl p-6 text-center shadow-lg border border-hairline bg-paper">
-        <div className="mb-4 flex justify-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-seal/10 text-seal">
-            <ScanLine className="h-6 w-6" />
+    <div className="min-h-screen bg-paper flex flex-col items-center p-4 sm:p-8 animate-fade-in relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 inset-x-0 h-96 bg-gradient-to-b from-seal/5 to-transparent pointer-events-none" />
+
+      <div className="w-full max-w-md flex flex-col gap-8 mt-6 md:mt-12 relative z-10">
+        <div className="flex flex-col items-center text-center gap-3">
+          <div className="h-20 w-20 rounded-full bg-paper-raised shadow-lg border border-hairline flex items-center justify-center mb-2">
+            <div className="h-14 w-14 rounded-full bg-seal/10 flex items-center justify-center text-seal">
+              <ScanLine className="h-7 w-7" />
+            </div>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="eyebrow text-seal">Door Check-in Active</p>
+            <h1 className="font-display text-3xl font-black text-ink tracking-tight">
+              {eventDetails.name}
+            </h1>
           </div>
         </div>
-        <h1 className="eyebrow mb-2">Door Check-in Active for</h1>
-        <p className="font-display text-2xl font-black text-ink">
-          {eventDetails.name}
-        </p>
-      </div>
 
-      <div className="w-full max-w-md">
-        <CheckInTerminalContainer eventId={eventDetails.id} requiresPin={requiresPin} />
+        <div className="w-full">
+          <CheckInTerminalContainer eventId={eventDetails.id} requiresPin={requiresPin} />
+        </div>
       </div>
     </div>
   );

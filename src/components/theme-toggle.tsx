@@ -32,7 +32,7 @@ export function ThemeSwitcher() {
           <Sun className="h-4 w-4 transition-transform duration-300" />
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="glass border-hairline rounded-xl min-w-[150px] p-2">
+      <DropdownMenuContent align="end" className="bg-paper-raised border-hairline rounded-xl min-w-[150px] p-2">
         <DropdownMenuItem
           onClick={() => setTheme("light")}
           className={`rounded-lg cursor-pointer flex items-center gap-2 p-2 ${

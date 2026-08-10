@@ -4,7 +4,28 @@ import { DEFAULT_EMAIL_TEMPLATE } from "@/lib/email-renderer";
 
 export { DEFAULT_EMAIL_TEMPLATE };
 
+import { FANCY_EMAIL_TEMPLATE, FORMAL_EMAIL_TEMPLATE, WEDDING_EMAIL_TEMPLATE } from "@/lib/email-renderer";
+
 export async function GetTemplates(userId?: string) {
+  // Ensure default templates exist globally (userId = null)
+  const builtInTemplates = [
+    { name: "Default Minimal Template", html: DEFAULT_EMAIL_TEMPLATE },
+    { name: "Fancy Event Template", html: FANCY_EMAIL_TEMPLATE },
+    { name: "Formal Event Template", html: FORMAL_EMAIL_TEMPLATE },
+    { name: "Wedding Event Template", html: WEDDING_EMAIL_TEMPLATE }
+  ];
+
+  for (const tpl of builtInTemplates) {
+    const exists = await prisma.template.findFirst({
+      where: { name: tpl.name, userId: null }
+    });
+    if (!exists) {
+      await prisma.template.create({
+        data: { name: tpl.name, html: tpl.html, userId: null }
+      });
+    }
+  }
+
   const templates = await prisma.template.findMany({
     where: {
       OR: [

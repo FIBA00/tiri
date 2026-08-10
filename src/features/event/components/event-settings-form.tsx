@@ -9,6 +9,8 @@ import { DynamicLocationPicker } from "@/components/ui/dynamic-location-picker";
 import { TimePicker } from "@/components/ui/time-picker";
 import { updateEventAction, deleteEventAction } from "@/features/event/actions/event.actions";
 import { generateTemplateAction } from "@/features/template/actions/template.actions";
+import { listTemplatesAction } from "@/features/event/actions/template.actions";
+import { useEffect } from "react";
 import { MapPin, Navigation, Calendar, Clock, ShieldAlert, ImagePlus, Loader2 } from "lucide-react";
 import {
   Dialog,
@@ -43,7 +45,20 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
     latitude: event.latitude ?? 9.0107,
     longitude: event.longitude ?? 38.7612,
     checkInPin: event.checkInPin || "",
+    templateId: event.templateId || "",
   });
+
+  const [templates, setTemplates] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function fetchTemplates() {
+      const res = await listTemplatesAction({});
+      if (res?.data?.success && res.data.data) {
+        setTemplates(res.data.data);
+      }
+    }
+    fetchTemplates();
+  }, []);
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
@@ -80,9 +95,19 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
           mimeType: file.type,
         });
 
-        if (res?.data?.success) {
-          alert("Template successfully generated from your design!");
-          router.refresh();
+        if (res?.data?.success && res.data.templateId) {
+          const newTemplateId = res.data.templateId;
+          
+          // Re-fetch templates to include the new one
+          const updatedTemplates = await listTemplatesAction({});
+          if (updatedTemplates?.data?.success && updatedTemplates.data.data) {
+            setTemplates(updatedTemplates.data.data);
+          }
+          
+          // Auto-select the newly generated template
+          HandleFieldChange("templateId", newTemplateId);
+          
+          alert("Template successfully generated and selected!");
         } else {
           alert(res?.data?.error || "Failed to generate template");
         }
@@ -118,6 +143,7 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
       latitude: formState.latitude,
       longitude: formState.longitude,
       checkInPin: formState.checkInPin || null,
+      templateId: formState.templateId || null,
     });
 
     setIsSubmitting(false);
@@ -291,6 +317,27 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
           </div>
           
           <div className="flex flex-col gap-6">
+            <div className="card-surface p-6 md:p-8 flex flex-col gap-4 rounded-2xl border border-hairline bg-paper">
+              <div>
+                <h3 className="font-semibold text-ink">Active Template</h3>
+                <p className="text-sm text-muted mt-1">Select an email template for your invitations.</p>
+              </div>
+              
+              <div className="flex flex-col gap-2 max-w-sm mt-2">
+                <select
+                  id="templateId"
+                  value={formState.templateId}
+                  onChange={(e) => HandleFieldChange("templateId", e.target.value)}
+                  className="flex h-12 w-full items-center justify-between rounded-xl border border-hairline bg-paper px-4 py-2 text-sm text-ink focus:outline-none focus:ring-2 focus:ring-seal"
+                >
+                  <option value="" disabled>Select a template</option>
+                  {templates.map(t => (
+                    <option key={t.id} value={t.id}>{t.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
             <div className="card-surface p-6 md:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 rounded-2xl border border-hairline bg-paper">
               <div>
                 <h3 className="font-semibold text-ink flex items-center gap-2">
@@ -343,7 +390,7 @@ export function EventSettingsForm({ event }: EventSettingsFormProps) {
         </div>
 
         <div className="flex items-center justify-end pt-4 sticky bottom-6 z-10">
-          <div className="bg-paper/80 backdrop-blur-md p-4 rounded-3xl shadow-2xl border border-hairline flex items-center gap-4">
+          <div className="bg-paper-raised p-4 rounded-3xl shadow-2xl border border-hairline flex items-center gap-4">
             <p className="text-sm font-medium text-muted mr-4">You have unsaved changes</p>
             <Button type="submit" className="btn-seal px-8 h-12 text-base rounded-2xl" disabled={isSubmitting}>
               {isSubmitting ? "Saving..." : "Save All Settings"}
