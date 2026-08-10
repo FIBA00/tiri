@@ -33,10 +33,11 @@ export default async function DashboardPage() {
           </p>
         </div>
 
-        <Link href="/events/new" className="w-full sm:w-auto">
-          <Button className="btn-seal w-full inline-flex items-center justify-center gap-2 px-8 py-6 text-base h-auto">
-            <CalendarPlus className="h-5 w-5" />
-            Create New Event
+        <Link href="/events/new" className="w-full sm:w-auto shrink-0 mt-4 sm:mt-0">
+          <Button className="btn-seal w-full inline-flex items-center justify-center gap-2 px-4 sm:px-8 py-4 sm:py-6 text-base h-auto">
+            <CalendarPlus className="h-5 w-5 shrink-0" />
+            <span className="hidden sm:inline">Create New Event</span>
+            <span className="sm:hidden">Create Event</span>
           </Button>
         </Link>
       </div>

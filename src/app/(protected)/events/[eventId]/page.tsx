@@ -83,13 +83,13 @@ export default async function EventDetailPage({
           const Icon = config.icon;
 
           return (
-            <div key={key} className="bg-paper-raised border border-hairline rounded-2xl p-6 flex items-center justify-between shadow-sm transition-transform hover:-translate-y-1 duration-300">
+            <div key={key} className="bg-paper-raised border border-hairline rounded-2xl p-4 sm:p-6 flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 shadow-sm transition-transform hover:-translate-y-1 duration-300">
               <div>
-                <p className="font-display text-3xl font-bold text-ink">{count}</p>
-                <p className="text-sm font-medium text-muted mt-1">{config.label}</p>
+                <p className="font-display text-2xl sm:text-3xl font-bold text-ink">{count}</p>
+                <p className="text-xs sm:text-sm font-medium text-muted mt-1">{config.label}</p>
               </div>
-              <div className={`p-4 rounded-2xl ${config.color}`}>
-                <Icon className="h-6 w-6" />
+              <div className={`p-3 sm:p-4 rounded-2xl shrink-0 ${config.color}`}>
+                <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
               </div>
             </div>
           );
